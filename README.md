@@ -1,0 +1,2 @@
+# lettuce
+Lettuce: (neo) Vim Distribution  This is a distribution of plug-ins and mappings for Neo-Vim, Vim, Gvim and MacVim.  It is designed to provide minimal working environment using the most popular plug-ins and the most common mappings.  The distribution is completely customisable by overwritting the main configuratino file. It differs from other distribution which hide configurations, I kept all together to easy cutomization of the distribution.
