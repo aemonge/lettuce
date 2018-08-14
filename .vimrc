@@ -102,14 +102,6 @@
   " Strip all trailing white-space in the current file
     au BufWritePre * %s/\s\+$//e
 
-    " Auto Alphabetize CSS
-    Plug 'csscomb/vim-csscomb', { 'do': 'npm install -g csscomb' }
-      " Map bc to run CSScomb. bc stands for beautify css
-      autocmd FileType css noremap <buffer> <leader>bc :CSScomb<CR>
-      " Automatically comb your CSS on save
-      autocmd BufWritePre,FileWritePre *.css,*.less,*.scss,*.sass silent! :CSScomb
-
-
   " Modify all the indents
     nnoremap <leader>= gg=G
 
@@ -281,12 +273,12 @@
       let g:limelight_conceal_ctermfg = '243'                                  " Comments color
       let g:limelight_paragraph_span = 1
 
+    Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                             IDE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Plugins
-    " Plug 'mhinz/vim-startify'                                                  " The fancy start screen
-    " NOTE: Below is a really good and efficient plugin, which I never used :p
     Plug 'ctrlpvim/ctrlp.vim'                                                  " Fuzzy file opener
       let g:ctrlp_map = '<c-p>'
       let g:ctrlp_cmd = 'CtrlP'
@@ -302,33 +294,17 @@
       let NERDTreeQuitOnOpen = 1
     Plug 'tpope/vim-fugitive'                                                  " Git wrapper
       nmap <leader>g :Gstatus<cr>
-      " augroup nvim_term
-        " au!
-        " au TermOpen * startinsert
-        " au TermClose * stopinsert
-      " augroup END
     Plug 'airblade/vim-gitgutter'                                              " Git diff sign
       nmap <leader>tg :GitGutterToggle<cr>
       nmap [h <Plug>GitGutterPrevHunk
       nmap ]h <Plug>GitGutterNextHunk
     Plug 'tpope/vim-surround'                                                  " Surround
-    " NOTE: Below is are TWO really good and efficient plugin, which I never used :p
-    " Plug 'majutsushi/tagbar'                                                   " Tag bar
-      " Plug 'xolox/vim-easytags'
-      " Plug 'xolox/vim-misc'
-      " nmap <c-t> :TagbarToggle<cr>
     Plug 'editorconfig/editorconfig-vim'
       let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
     Plug 'mtth/scratch.vim'                                                    " A simple Scratch window for tooling
       nmap <leader>st :Scratch<cr>
     Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
       nnoremap <leader>u :MundoToggle<CR>
-    " Default internal terminal for neovim and vim-8 is pretty good. Avoid the Deol Plugin
-    " Plug 'shougo/deol.nvim'                                                    " A powerful shell implementation by vim (for windows)
-      " Plug 'Shougo/deoplete.nvim'
-      " Plug 'zchee/deoplete-zsh'
-      " tnoremap <ESC><ESC> <C-\><C-n>
-      " nmap <leader>x :Deol -split<CR>
 
       if has('win32')
         Plug 'shougo/vimproc.vim', {'do' : 'nmake -f make_msvc.mak'}             " Plug 'shougo/vimproc.vim', {'do' : 'make'}
@@ -336,12 +312,6 @@
       if has('unix')
         Plug 'shougo/vimproc.vim', {'do' : 'make'}                              " Plug 'shougo/vimproc.vim', {'do' : 'make'}
       endif
-    " NOTE: Below is a really good and efficient plugin, which I never used :p
-    " Plug 'jeetsukumaran/vim-buffergator'                                       " Vim plugin to list, select and switch between buffers.
-      " nmap <leader>b :BuffergatorToggle<cr>
-      " let g:buffergator_viewport_split_policy = 'B'
-      " let g:buffergator_hsplit_size = 5
-    " Plug 'jaxbot/browserlink.vim'                                              " Connect vim with broswer console and edition
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
@@ -357,7 +327,6 @@
   " Plugins
     Plug 'chrisbra/sudoedit.vim'                                               " Enable sudo CRUD operations with none sudo vim instance
     Plug 'tpope/vim-repeat'                                                    " Repeat
-    " Plug 'kristijanhusak/vim-multiple-cursors'                                 " Multiple cursors
     Plug 'Raimondi/delimitMate'                                                " Closing of quotes
     Plug 'tmhedberg/matchit'                                                   " Match it
     Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
@@ -365,6 +334,7 @@
     Plug 'othree/eregex.vim'                                                   " Use the Perl/Ruby(/JavaScript) Regex engine.
       let g:eregex_default_enable = 0                                          "   Disable eregex, on search use it with :%S// for searchNReplace
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
+    " Plug 'hysd/vim-grammarous'                                                 " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                           Motions
@@ -395,21 +365,11 @@
   " Plugins
     Plug 'sheerun/vim-polyglot'                                                " Language Support a TON
       Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
-      Plug 'polpo/vim-html-js-indent'                                          " This indent plugin restores the inline JavaScript/HTML indenting support which was removed from vim-javascript.
-      " Plug 'bendavis78/vim-polymer'
-      Plug 'moll/vim-node'
-      " Plug 'kylef/apiblueprint.vim'                                            " API Blueprint
-      Plug 'othree/javascript-libraries-syntax.vim'                              " The alternative for tern_for_vim. Syntax for JS libs
-        let g:used_javascript_libs = 'underscore, angularjs, angularui, angularuirouter, react, jasmine, chai, d3'
-    Plug 'rhysd/devdocs.vim'                                                     " This is a Vim plugin for devdocs, which is an awesome multiple API documentation service. You can open and search devdocs from Vim.
-      nmap K <Plug>(devdocs-under-cursor)
-    Plug 'KeitaNakamura/highlighter.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'leafgarland/typescript-vim'                                            " provides syntax highlight.
-    Plug 'Quramy/vim-js-pretty-template'                                         " provides syntax highlight for contents in Template Strings.
-    Plug 'jason0x43/vim-js-indent'                                               " provides function of indent for both JavaScript and TypeScript.
     Plug 'Quramy/vim-dtsm'                                                       " provides .d.ts management for dtsm users.
     Plug 'Quramy/tsuquyomi'                                                      " Make your Vim a TypeScript IDE
     Plug 'mhartington/vim-typings'                                               " provides .d.ts management for typings users.
+
     Plug 'w0rp/ale', { 'do': 'npm i -g ts-server' }                              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       let g:ale_lint_on_text_changed = 'never'
@@ -421,7 +381,7 @@
       let g:ale_sign_warning = '∆'
       let g:ale_fixers = {
       \  'javascript': [ 'eslint' ],
-      \  'typescript': [],
+      \  'typescript':  ['tslint' ],
       \  'json': ['prettier'],
       \  'css': ['prettier'],
       \  'markdown': ['prettier'],
@@ -433,14 +393,6 @@
       let g:ale_fix_on_save = 1
       let g:ale_lint_on_save = 1
       let g:ale_lint_on_enter = 0
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
-"                        Misc Plugins
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  " Social Plugins
-    " Plug 'vim-scripts/TwitVim'
-  " Text Plugins
-    " Plug 'vim-scripts/loremipsum'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                   Tab, Splits & Navigation
@@ -516,32 +468,6 @@
       if executable('ag')
         let g:ackprg = 'ag --vimgrep'
       endif
-    " NOTE: Commenting out the incsearch since it makes things slow and weird.....
-    " Plug 'haya14busa/incsearch.vim'                                            " Improved incremental searching for Vim
-      " Plug 'haya14busa/incsearch-fuzzy.vim'
-      " Plug 'haya14busa/incsearch-easymotion.vim'
-      " Plug 'Lokaltog/vim-easymotion'                                             " Easy motion
-      " set hlsearch
-      " let g:incsearch#auto_nohlsearch = 1
-      " let g:EasyMotion_smartcase = 1
-      " " map n  <Plug>(incsearch-nohl-n)\|zv<cr>
-      " " map N  <Plug>(incsearch-nohl-N)\|zv<cr>
-      " " map *  <Plug>(incsearch-nohl-*)\|zv<cr>
-      " " map #  <Plug>(incsearch-nohl-#)\|zv<cr>
-      " " map g* <Plug>(incsearch-nohl-g*)\|zv<cr>
-      " " map g# <Plug>(incsearch-nohl-g#)\|zv<cr>
-      " function! s:config_easyfuzzymotion(...) abort
-        " return extend(copy({
-        " \   'converters': [incsearch#config#fuzzy#converter()],
-        " \   'modules': [incsearch#config#easymotion#module()],
-        " \   'keymap': {"\<CR>": '<Over>(easymotion)'},
-        " \   'is_expr': 0,
-        " \   'is_stay': 1,
-        " \   'smart_case': 1
-        " \ }), get(a:, 1, {}))
-      " endfunction
-      " noremap <silent><expr> / incsearch#go(<SID>config_easyfuzzymotion()) \|zv<cr>
-      " noremap <silent><expr> ? incsearch#go(<SID>config_easyfuzzymotion({'command': '?'})) \|zv<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                     Local Plugins
@@ -637,6 +563,8 @@
       au VimEnter * call AddCycleGroup(['read', 'write'])
       au VimEnter * call AddCycleGroup(['truthy', 'falsy'])
       au VimEnter * call AddCycleGroup(['filter', 'reject'])
+      au VimEnter * call AddCycleGroup(['disable', 'enable'])
+      au VimEnter * call AddCycleGroup(['disabled', 'enabled'])
       au VimEnter * call AddCycleGroup(['internal', 'external'])
       au VimEnter * call AddCycleGroup(['short', 'normal', 'long'])
       au VimEnter * call AddCycleGroup(['subscribe', 'unsubscribe'])
@@ -652,3 +580,30 @@
       call plug#end()
       exec FixTheme()
       au VimEnter,BufNewFile,BufReadPost * exec FixTheme() | AirlineRefresh
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
+"            Discarded Plugins: Written here to remember not to use them
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  " Plug 'csscomb/vim-csscomb'
+  " Plug 'mhinz/vim-startify'                                                  " The fancy start screen
+  " Plug 'majutsushi/tagbar'                                                   " Tag bar
+  " Plug 'shougo/deol.nvim'                                                    " A powerful shell implementation by vim (for windows)
+  " Plug 'jeetsukumaran/vim-buffergator'                                       " Vim plugin to list, select and switch between buffers.
+  " Plug 'jaxbot/browserlink.vim'                                              " Connect vim with broswer console and edition
+  " Plug 'kristijanhusak/vim-multiple-cursors'                                 " Multiple cursors
+  " Plug 'polpo/vim-html-js-indent'                                          " This indent plugin restores the inline JavaScript/HTML indenting support which was removed from vim-javascript.
+  " Plug 'rhysd/devdocs.vim'                                                     " This is a Vim plugin for devdocs, which is an awesome multiple API documentation service. You can open and search devdocs from Vim.
+  " Plug 'KeitaNakamura/highlighter.nvim', { 'do': ':UpdateRemotePlugins' }
+  " Plug 'Quramy/vim-js-pretty-template'                                         " provides syntax highlight for contents in Template Strings.
+  " Plug 'vim-scripts/loremipsum'
+  " Plug 'vim-scripts/TwitVim'
+  " Plug 'jason0x43/vim-js-indent'                                               " provides function of indent for both JavaScript and TypeScript.
+  " Plug 'bendavis78/vim-polymer'
+  " Plug 'moll/vim-node'
+  " Plug 'kylef/apiblueprint.vim'                                            " API Blueprint
+  " Plug 'othree/javascript-libraries-syntax.vim'                              " The alternative for tern_for_vim. Syntax for JS libs
+  " Plug 'haya14busa/incsearch.vim'                                            " Improved incremental searching for Vim
+  " Plug 'haya14busa/incsearch-fuzzy.vim'
+  " Plug 'haya14busa/incsearch-easymotion.vim'
+  " Plug 'Lokaltog/vim-easymotion'                                             " Easy motion
