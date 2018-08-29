@@ -283,6 +283,10 @@
       let g:ctrlp_map = '<c-p>'
       let g:ctrlp_cmd = 'CtrlP'
       let g:ctrlp_working_path_mode = 'ra'
+      let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\v[\/](doc|tmp|node_modules)',
+        \ 'file': '\v\.(exe|so|dll)$',
+        \ }
     Plug 'aemonge/nerdcommenter'                                               " NERD commenter
       let NERDSpaceDelims=1
       let NERDRemoveExtraSpaces=1
@@ -329,7 +333,7 @@
     Plug 'tpope/vim-repeat'                                                    " Repeat
     Plug 'Raimondi/delimitMate'                                                " Closing of quotes
     Plug 'tmhedberg/matchit'                                                   " Match it
-    Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
+    " Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
     Plug 'vim-scripts/ReplaceWithRegister'
     Plug 'othree/eregex.vim'                                                   " Use the Perl/Ruby(/JavaScript) Regex engine.
       let g:eregex_default_enable = 0                                          "   Disable eregex, on search use it with :%S// for searchNReplace
@@ -505,6 +509,7 @@
     tnoremap <C-k> <C-\><C-N><C-w>k
     tnoremap <C-l> <C-\><C-N>gt
     tnoremap <C-h> <C-\><C-N>gT
+    tnoremap <C-t> <C-\><C-n>:call NewTermTab()<cr>
     tnoremap <C-l><C-l> clear<cr>
     tnoremap <C-l><C-l><C-l> reset<cr>
   endfunction
@@ -523,7 +528,6 @@
     map <C-T> :exec NewTermTab()<cr>
   endfunction
   exec TerminalPlusPlus()
-
 
   function! DebugVar()
     if &ft == 'javascript' || &ft == 'jasmine.javascript' || &ft == 'javascript.jsx' || &ft == 'html' || &ft == 'typescript'
@@ -547,6 +551,26 @@
     endif
   endfunction
   nmap <leader>v :call DebugVar()<cr>
+
+  " Move Left After Tab Close
+  function! MoveToTabOnLeft()
+    let current = tabpagenr()
+    let last = tabpagenr('$')
+    if current != last " We are (currently) not in the last tab
+      let tabonleft = current - 1
+      exe tabonleft."tabnext"
+    endif
+  endfunction
+  function! IfTabOnlyThenBufOnly()
+    if tabpagenr('$') == 1 " We are (currently) not in the last tab
+      BOnly
+    endif
+  endfunction
+  augroup tabonleft
+      au!
+      au TabClosed * call MoveToTabOnLeft()
+      au TabClosed * call IfTabOnlyThenBufOnly()
+  augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Finizalization
