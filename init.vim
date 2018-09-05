@@ -329,7 +329,7 @@
     xnoremap p pgvy
 
   " Plugins
-    Plug 'chrisbra/sudoedit.vim'                                               " Enable sudo CRUD operations with none sudo vim instance
+    " Plug 'chrisbra/sudoedit.vim'                                               " Enable sudo CRUD operations with none sudo vim instance
     Plug 'tpope/vim-repeat'                                                    " Repeat
     Plug 'Raimondi/delimitMate'                                                " Closing of quotes
     Plug 'tmhedberg/matchit'                                                   " Match it
@@ -369,11 +369,6 @@
   " Plugins
     Plug 'sheerun/vim-polyglot'                                                " Language Support a TON
       Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
-    Plug 'leafgarland/typescript-vim'                                            " provides syntax highlight.
-    Plug 'Quramy/vim-dtsm'                                                       " provides .d.ts management for dtsm users.
-    Plug 'Quramy/tsuquyomi'                                                      " Make your Vim a TypeScript IDE
-    Plug 'mhartington/vim-typings'                                               " provides .d.ts management for typings users.
-
     Plug 'w0rp/ale', { 'do': 'npm i -g ts-server' }                              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       let g:ale_lint_on_text_changed = 'never'
@@ -383,16 +378,15 @@
         let g:lt_location_list_toggle_map = '<leader>e'
       let g:ale_sign_error = '✗'
       let g:ale_sign_warning = '∆'
-      let g:ale_fixers = {
-      \  'javascript': [ 'eslint' ],
-      \  'typescript':  ['tslint' ],
-      \  'json': ['prettier'],
-      \  'css': ['prettier'],
-      \  'markdown': ['prettier'],
-      \}
       let g:ale_linters = {
       \  'typescript': [ 'tslint', 'tsserver', 'typecheck' ],
       \  'javascript': [ 'eslint', 'typecheck' ]
+      \}
+      let g:ale_fixers = {
+      \  'javascript': [ 'eslint' ],
+      \  'json': ['prettier'],
+      \  'css': ['prettier'],
+      \  'markdown': ['prettier'],
       \}
       let g:ale_fix_on_save = 1
       let g:ale_lint_on_save = 1
@@ -522,10 +516,10 @@
   function! TerminalPlusPlus()
     au BufEnter * if &buftype == 'terminal' | call TerminalThemeIn()  | endif
     au BufLeave * if &buftype == 'terminal' | call TerminalThemeOut() | endif
-    nmap <leader>x :split<cr> :call GoTerm()<cr>
+    nmap <leader>x :split<cr> <C-\><C-n>:call GoTerm()<cr>
     call TerminalMapping()
     set shell=/usr/bin/zsh
-    map <C-T> :exec NewTermTab()<cr>
+    map <C-T> <C-\><C-n>:exec NewTermTab()<cr>
   endfunction
   exec TerminalPlusPlus()
 
@@ -623,6 +617,9 @@
   " Plug 'vim-scripts/loremipsum'
   " Plug 'vim-scripts/TwitVim'
   " Plug 'jason0x43/vim-js-indent'                                               " provides function of indent for both JavaScript and TypeScript.
+  " Plug 'Quramy/vim-dtsm'                                                       " SUPER SLOWS EVERYTHING provides .d.ts management for dtsm users.
+  " Plug 'Quramy/tsuquyomi'                                                      " SUPER SLOWS EVERYTHING Make your Vim a TypeScript IDE
+  " Plug 'mhartington/vim-typings'                                               " SUPER SLOWS EVERYTHING provides .d.ts management for typings users.
   " Plug 'bendavis78/vim-polymer'
   " Plug 'moll/vim-node'
   " Plug 'kylef/apiblueprint.vim'                                            " API Blueprint
