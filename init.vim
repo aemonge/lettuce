@@ -378,11 +378,13 @@
         let g:lt_location_list_toggle_map = '<leader>e'
       let g:ale_sign_error = '✗'
       let g:ale_sign_warning = '∆'
+      let g:ale_completion_enabled = 1
       let g:ale_linters = {
       \  'typescript': [ 'tslint', 'tsserver', 'typecheck' ],
       \  'javascript': [ 'eslint', 'typecheck' ]
       \}
       let g:ale_fixers = {
+      \  'typescript': [ 'tslint', 'eslint' ],
       \  'javascript': [ 'eslint' ],
       \  'json': ['prettier'],
       \  'css': ['prettier'],
@@ -513,10 +515,15 @@
     :call TerminalThemeIn()
   endfunction
 
+  function! SplitGoTerm()
+    :split
+    :call GoTerm()
+  endfunction
+
   function! TerminalPlusPlus()
     au BufEnter * if &buftype == 'terminal' | call TerminalThemeIn()  | endif
     au BufLeave * if &buftype == 'terminal' | call TerminalThemeOut() | endif
-    nmap <leader>x :split<cr> <C-\><C-n>:call GoTerm()<cr>
+    nmap <leader>x :call SplitGoTerm()<cr>
     call TerminalMapping()
     set shell=/usr/bin/zsh
     map <C-T> <C-\><C-n>:exec NewTermTab()<cr>
@@ -628,3 +635,4 @@
   " Plug 'haya14busa/incsearch-fuzzy.vim'
   " Plug 'haya14busa/incsearch-easymotion.vim'
   " Plug 'Lokaltog/vim-easymotion'                                             " Easy motion
+  "
