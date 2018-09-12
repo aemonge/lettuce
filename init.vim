@@ -149,7 +149,7 @@
 
   " Plugins
     if has('unix')
-      Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer' }
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer; npm i -g typescript' }
         let g:ycm_collect_identifiers_from_comments_and_strings = 1
         let g:ycm_collect_identifiers_from_tags_files = 1
     endif
@@ -369,7 +369,7 @@
   " Plugins
     Plug 'sheerun/vim-polyglot'                                                " Language Support a TON
       Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
-    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server' }                              " A version of Syntactic that works a-sync
+    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint' }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       let g:ale_lint_on_text_changed = 'never'
       Plug 'Valloric/ListToggle'
