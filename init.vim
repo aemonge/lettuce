@@ -459,7 +459,7 @@
     vnorem // y/<c-r>"<cr>
     vnorem <C-H> y:<C-f>pI%S/<Esc>A//gic<Esc>hhhi
     " Use ,Space to toggle the highlight search
-    nnoremap <Leader><Space> :set hlsearch!<CR>
+    nnoremap <Leader><Space> :noh<CR>
 
   " Plugins
     Plug 'mileszs/ack.vim'                                                     " Search in the whole project (folder)
@@ -470,7 +470,7 @@
       endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
-"                     Local Plugins
+"                        Terminal
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   function! NewTermTab()
     exec 'tabnew'
@@ -485,6 +485,7 @@
     set noshowmode
     set noruler
     set noshowcmd
+    :noh
     exe 'normal ai'
   endfunction
 
@@ -530,6 +531,9 @@
   endfunction
   exec TerminalPlusPlus()
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
+"                     Local Plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   function! DebugVar()
     if &ft == 'javascript' || &ft == 'jasmine.javascript' || &ft == 'javascript.jsx' || &ft == 'html' || &ft == 'typescript'
       exe "normal oconsole.log();"
