@@ -57,7 +57,7 @@
     set t_vb=                                                                  " No sound on errors
     set cursorcolumn                                                           " Display vertical and horizontal current line
     set cursorline                                                             " Display vertical and horizontal current line
-    noremap <C-l><C-l> :syntax sync fromstart<cr>:redraw!<cr> :exec FixTheme()<cr>
+    noremap <C-l><C-l> :syntax sync fromstart<cr>:redraw!<cr> :exec SetTheme()<cr>
                                                                                " Since vim looses highlight colors sometimes @NOTE: There's double L
     set spl=en_us,es spell
       map <leader>ts :set spell!<cr>
@@ -210,14 +210,11 @@
     Plugin 'vim-scripts/colorsupport.vim'
     Plugin 'w0ng/vim-hybrid'                                                     " Colorscheme hybrid
     Plugin 'altercation/vim-colors-solarized'
+
       function! SetTheme()
         set background=dark
         colorscheme solarized
         colorscheme hybrid
-      endfunction
-
-      function! FixTheme()
-        exec SetTheme()
         hi clear SpellBad
         hi clear SpellCap
         hi SpellBad     gui=underline cterm=underline
@@ -231,8 +228,6 @@
         hi CursorColumn gui=bold      cterm=bold
         hi SignColumn   ctermbg=none
         hi SignColumn   gui=bold      cterm=bold
-        " Airline Changes this option
-        set showtabline=1                                                          " Only show tabline when more than one tab. This is meant for the :Deol terminal, so when only having that tab hide text-ui to look more like a terminal
       endfunction
 
     if !exists("g:hybrid_use_Xresources")
@@ -475,10 +470,19 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                        Terminal
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  function! GoTerm()
+    :terminal
+    :call TerminalThemeIn()
+  endfunction
+
+  function! SplitGoTerm()
+    :split
+    :call GoTerm()
+  endfunction
+
   function! NewTermTab()
     exec 'tabnew'
-    :terminal ++curwin
-    :BOnly!
+    :call GoTerm()
   endfunction
 
   function! TerminalThemeIn()
@@ -515,20 +519,15 @@
     tnoremap <C-l><C-l><C-l> reset<cr>
   endfunction
 
-  function! InitTerm()
-    :call FixTheme()
-    :terminal ++curwin
-  endfunction
-
   function! TerminalPlusPlus()
     au BufEnter * if &buftype == 'terminal' | call TerminalThemeIn()  | endif
     au BufLeave * if &buftype == 'terminal' | call TerminalThemeOut() | endif
-    nmap <leader>x :terminal<cr>
     call TerminalMapping()
     set shell=/usr/bin/zsh
     map <C-T> <C-\><C-n>:exec NewTermTab()<cr>
 
-    " nmap <leader>x :call SplitGoTerm()<cr>
+    " nmap <leader>x :terminal<cr>
+    nmap <leader>x :call SplitGoTerm()<cr>
   endfunction
   exec TerminalPlusPlus()
 
@@ -608,8 +607,8 @@
 
   " Theme Should be at last I don't know why
       call vundle#end()
-      exec FixTheme()
-      au VimEnter,BufNewFile,BufReadPost * exec FixTheme() | AirlineRefresh
+      exec SetTheme()
+      au VimEnter,BufNewFile,BufReadPost * exec SetTheme() | AirlineRefresh
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
