@@ -155,11 +155,11 @@
         let g:ycm_collect_identifiers_from_comments_and_strings = 1
         let g:ycm_collect_identifiers_from_tags_files = 1
     endif
-    " Plug 'SirVer/ultisnips'
-      " Plug 'honza/vim-snippets'
-      " let g:UltiSnipsExpandTrigger="<C-K>"
-      " let g:UltiSnipsJumpForwardTrigger="<C-F>"
-      " let g:UltiSnipsJumpBackwardTrigger="<C-B>"
+    Plug 'SirVer/ultisnips'
+      Plug 'honza/vim-snippets'
+      let g:UltiSnipsExpandTrigger="<C-K>"
+      let g:UltiSnipsJumpForwardTrigger="<C-F>"
+      let g:UltiSnipsJumpBackwardTrigger="<C-B>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                         Fold Related
@@ -339,10 +339,10 @@
   " Plugs
     Plug 'chrisbra/sudoedit.vim'                                               " Enable sudo CRUD operations with none sudo vim instance
     Plug 'tpope/vim-repeat'                                                    " Repeat
-    " Plug 'Raimondi/delimitMate'                                                " Closing of quotes
+    Plug 'Raimondi/delimitMate'                                                " Closing of quotes
     " Plug 'tmhedberg/matchit'                                                   " Match it
     " Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
-    Plug 'vim-scripts/ReplaceWithRegister'
+    " Plug 'vim-scripts/ReplaceWithRegister'
     " Plug 'othree/eregex.vim'                                                   " Use the Perl/Ruby(/JavaScript) Regex engine.
       " let g:eregex_default_enable = 0                                          "   Disable eregex, on search use it with :%S// for searchNReplace
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
