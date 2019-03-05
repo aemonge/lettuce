@@ -5,7 +5,9 @@
   " :b <number> 	Display the buffer with the given number.
   " :b <partial> 	Display the first buffer matching the partial name (or press Tab for name completion).
   "
-  " DEPS `npm i -g ts-server tslint eslint js-beautify typescript-formatter eslint-plugin-jq uery eslint-plugin-angular xo html-beautify jsonlint` `pacman -S ag neovim tidy python make python-pip cmake gcc-c++ make python3-devel pencil gimp trash-cli fzf cowsay tidy file-roller xclip`
+  " DEPS `npm i -g ts-server tslint eslint js-beautify typescript-formatter eslint-plugin-jq uery eslint-plugin-angular xo html-beautify jsonlint` `pacman -S ag neovim tidy python make python-pip cmake gcc-c++ make python3-devel pencil gimp trash-cli fzf cowsay tidy file-roller xclip mongodb`
+  "
+  " Change vim-surround single quotes for double: It's easiest to explain with examples. Press cs"'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                      Initialization (Vundle)
@@ -41,7 +43,7 @@
   " Vim Settings
     let mapleader=','                                                          " Change the mapleader
     set timeoutlen=150                                                         " Time to wait for a command
-    set noautochdir                                                            " Don't change Dir on file open
+    " set noautochdir                                                            " Don't change Dir on file open
     set autoread                                                               " Set autoread when a file is changed outside
     set autowrite                                                              " Write on make/shell commands au FileChangedShell * echo Warning: File changed on disk
     set hidden                                                                 " Turn on hidden
@@ -266,7 +268,7 @@
     Plug 'junegunn/limelight.vim'
       map <leader>l :Limelight!!<cr>
       let g:limelight_conceal_ctermfg = '243'                                  " Comments color
-      let g:limelight_paragraph_span = 1
+      " let g:limelight_paragraph_span = 0
 
     Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
       Plug 'roxma/nvim-yarp', {'cond': v:version == 800 && !has('nvim')}
@@ -285,6 +287,7 @@
         \ 'dir':  '\v[\/](doc|tmp|node_modules)',
         \ 'file': '\v\.(exe|so|dll)$',
         \ }
+      nmap <C-b> :CtrlPBuffer<cr>
     Plug 'aemonge/nerdcommenter'                                               " NERD commenter
       let NERDSpaceDelims=1
       let NERDRemoveExtraSpaces=1
@@ -297,6 +300,7 @@
     Plug 'tpope/vim-fugitive'                                                  " Git wrapper
       nmap <leader>g :Gstatus<cr>
     Plug 'airblade/vim-gitgutter'                                              " Git diff sign
+      set updatetime=100
       nmap <leader>tg :GitGutterToggle<cr>
       nmap [h <Plug>GitGutterPrevHunk
       nmap ]h <Plug>GitGutterNextHunk
@@ -315,12 +319,17 @@
         Plug 'shougo/vimproc.vim', {'do' : 'make'}                              " Plug 'shougo/vimproc.vim', {'do' : 'make'}
       endif
 
+    Plug 'zweifisch/pipe2eval'                                                 " Simple REPL inside vim: supports: python, php, coffee, mysql, mongodb, redis, sh, go, javascript, ruby, elixir
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Expected Enhancements
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Settings
     set laststatus=2                                                           " Enables the status line at the bottom of Vim Only when SPLIT
+    let g:python_host_prog = '/usr/bin/python2'
+    let g:python3_host_prog = '/usr/bin/python3.7'
+
 
   " Mappings
     " When pasting don't replace the current register.
@@ -336,7 +345,7 @@
     Plug 'othree/eregex.vim'                                                   " Use the Perl/Ruby(/JavaScript) Regex engine.
       let g:eregex_default_enable = 0                                          "   Disable eregex, on search use it with :%S// for searchNReplace
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
-    " Plug 'hysd/vim-grammarous'                                                 " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
+    Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                           Motions
@@ -370,7 +379,7 @@
       Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
       Plug 'flniu/confluencewiki.vim'                                          " Support for confluence wiki (also jira descriptions)
       au BufNewFile,BufReadPost *.wiki set filetype=confluencewiki
-    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint' }              " A version of Syntactic that works a-sync
+    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint vimlint prettier jsonlint fixjson eslint-plugin-react eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack' }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       let g:ale_lint_on_text_changed = 'never'
       Plug 'Valloric/ListToggle'
@@ -380,20 +389,27 @@
       let g:ale_sign_error = '✗'
       let g:ale_sign_warning = '∆'
       let g:ale_completion_enabled = 1
+      " Disabled tsserver in typescript since my machine is TOO slow.
       let g:ale_linters = {
-      \  'typescript': [ 'tslint', 'tsserver', 'typecheck' ],
-      \  'javascript': [ 'eslint', 'typecheck' ]
+      \  'typescript': [ 'tslint', 'tsserver' ],
+      \  'javascript': [ 'eslint' ],
+      \  'jsx': [ 'eslint' ],
+      \  'json': [ 'jsonlint' ]
       \}
       let g:ale_fixers = {
-      \  'typescript': [ 'tslint', 'eslint' ],
-      \  'javascript': [ 'eslint' ],
-      \  'json': ['prettier'],
+      \  'typescript': [ 'eslint', 'prettier' ],
+      \  'javascript': [ 'eslint', 'prettier' ],
+      \  'jsx': [ 'eslint', 'prettier'  ],
+      \  'json': ['fixjson'],
       \  'css': ['prettier'],
       \  'markdown': ['prettier'],
       \}
       let g:ale_fix_on_save = 1
+      let g:ale_lint_on_text_changed = 0
+      let g:ale_lint_on_insert_leave = 0
       let g:ale_lint_on_save = 1
       let g:ale_lint_on_enter = 0
+    Plug 'ternjs/tern_for_vim', { 'do' : 'npm i' }                             " This is a Vim plugin that provides Tern-based JavaScript editing support.
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                   Tab, Splits & Navigation
@@ -497,7 +513,7 @@
     set noruler
     set noshowcmd
     :noh
-    exe 'normal i'
+    exe 'normal Ga'
   endfunction
 
   function! TerminalThemeOut()
