@@ -155,11 +155,11 @@
         let g:ycm_collect_identifiers_from_comments_and_strings = 1
         let g:ycm_collect_identifiers_from_tags_files = 1
     endif
-    Plug 'SirVer/ultisnips'
-      Plug 'honza/vim-snippets'
-      let g:UltiSnipsExpandTrigger="<C-K>"
-      let g:UltiSnipsJumpForwardTrigger="<C-F>"
-      let g:UltiSnipsJumpBackwardTrigger="<C-B>"
+    " Plug 'SirVer/ultisnips'
+      " Plug 'honza/vim-snippets'
+      " let g:UltiSnipsExpandTrigger="<C-K>"
+      " let g:UltiSnipsJumpForwardTrigger="<C-F>"
+      " let g:UltiSnipsJumpBackwardTrigger="<C-B>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                         Fold Related
@@ -246,9 +246,9 @@
       let g:airline_solarized_bg='dark'
       let g:airline_detect_spell=0
       let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-      let g:airline_extensions = ['tabline', 'fugitiveline', 'clock', 'ale']
+      let g:airline_extensions = ['tabline', 'clock', 'ale']
       " Fugitive
-      let g:airline#extensions#fugitiveline#enabled = 1
+      " let g:airline#extensions#fugitiveline#enabled = 1
       " Tab-line
       let g:airline#extensions#tabline#show_tab_nr = 0
       let g:airline#extensions#tabline#tabs_label = ''
@@ -265,14 +265,14 @@
       let airline#extensions#ale#error_symbol = '✗'
       let airline#extensions#ale#warning_symbol = '∆'
 
-    Plug 'junegunn/limelight.vim'
-      map <leader>l :Limelight!!<cr>
-      let g:limelight_conceal_ctermfg = '243'                                  " Comments color
+    " Plug 'junegunn/limelight.vim'
+      " map <leader>l :Limelight!!<cr>
+      " let g:limelight_conceal_ctermfg = '243'                                  " Comments color
       " let g:limelight_paragraph_span = 0
 
-    Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
-      Plug 'roxma/nvim-yarp', {'cond': v:version == 800 && !has('nvim')}
-      Plug 'roxma/vim-hug-neovim-rpc',  {'cond': v:version == 800 && !has('nvim')}
+    " Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
+      " Plug 'roxma/nvim-yarp', {'cond': v:version == 800 && !has('nvim')}
+      " Plug 'roxma/vim-hug-neovim-rpc',  {'cond': v:version == 800 && !has('nvim')}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
@@ -297,29 +297,30 @@
       map <leader>n :NERDTreeFind<cr>
       let NERDTreeDirArrows=1
       let NERDTreeQuitOnOpen = 1
-    Plug 'tpope/vim-fugitive'                                                  " Git wrapper
-      nmap <leader>g :Gstatus<cr>
-    Plug 'airblade/vim-gitgutter'                                              " Git diff sign
-      set updatetime=100
-      nmap <leader>tg :GitGutterToggle<cr>
-      nmap [h <Plug>GitGutterPrevHunk
-      nmap ]h <Plug>GitGutterNextHunk
+    " Plug 'tpope/vim-fugitive'                                                  " Git wrapper
+      " nmap <leader>g :Gstatus<cr>
+    " Plug 'airblade/vim-gitgutter'                                              " Git diff sign
+      " set updatetime=100
+      " nmap <leader>tg :GitGutterToggle<cr>
+      " nmap [h <Plug>GitGutterPrevHunk
+      " nmap ]h <Plug>GitGutterNextHunk
     Plug 'tpope/vim-surround'                                                  " Surround
     Plug 'editorconfig/editorconfig-vim'
-      let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+      let g:EditorConfig_exclude_patterns = ['scp://.*']
+      " let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
     Plug 'mtth/scratch.vim'                                                    " A simple Scratch window for tooling
       nmap <leader>st :Scratch<cr>
-    Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
-      nnoremap <leader>u :MundoToggle<CR>
+    " Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
+      " nnoremap <leader>u :MundoToggle<CR>
 
-      if has('win32')
-        Plug 'shougo/vimproc.vim', {'do' : 'nmake -f make_msvc.mak'}             " Plug 'shougo/vimproc.vim', {'do' : 'make'}
-      endif
-      if has('unix')
-        Plug 'shougo/vimproc.vim', {'do' : 'make'}                              " Plug 'shougo/vimproc.vim', {'do' : 'make'}
-      endif
+      " if has('win32')
+        " Plug 'shougo/vimproc.vim', {'do' : 'nmake -f make_msvc.mak'}             " Plug 'shougo/vimproc.vim', {'do' : 'make'}
+      " endif
+      " if has('unix')
+        " Plug 'shougo/vimproc.vim', {'do' : 'make'}                              " Plug 'shougo/vimproc.vim', {'do' : 'make'}
+      " endif
 
-    Plug 'zweifisch/pipe2eval'                                                 " Simple REPL inside vim: supports: python, php, coffee, mysql, mongodb, redis, sh, go, javascript, ruby, elixir
+    " Plug 'zweifisch/pipe2eval'                                                 " Simple REPL inside vim: supports: python, php, coffee, mysql, mongodb, redis, sh, go, javascript, ruby, elixir
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
@@ -338,14 +339,14 @@
   " Plugs
     Plug 'chrisbra/sudoedit.vim'                                               " Enable sudo CRUD operations with none sudo vim instance
     Plug 'tpope/vim-repeat'                                                    " Repeat
-    Plug 'Raimondi/delimitMate'                                                " Closing of quotes
-    Plug 'tmhedberg/matchit'                                                   " Match it
+    " Plug 'Raimondi/delimitMate'                                                " Closing of quotes
+    " Plug 'tmhedberg/matchit'                                                   " Match it
     " Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
     Plug 'vim-scripts/ReplaceWithRegister'
-    Plug 'othree/eregex.vim'                                                   " Use the Perl/Ruby(/JavaScript) Regex engine.
-      let g:eregex_default_enable = 0                                          "   Disable eregex, on search use it with :%S// for searchNReplace
+    " Plug 'othree/eregex.vim'                                                   " Use the Perl/Ruby(/JavaScript) Regex engine.
+      " let g:eregex_default_enable = 0                                          "   Disable eregex, on search use it with :%S// for searchNReplace
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
-    Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
+    " Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                           Motions
@@ -396,15 +397,16 @@
       \  'jsx': [ 'eslint' ],
       \  'json': [ 'jsonlint' ]
       \}
-      let g:ale_fixers = {
-      \  'typescript': [ 'eslint', 'prettier' ],
-      \  'javascript': [ 'eslint', 'prettier' ],
-      \  'jsx': [ 'eslint', 'prettier'  ],
-      \  'json': ['fixjson'],
-      \  'css': ['prettier'],
-      \  'markdown': ['prettier'],
-      \}
-      let g:ale_fix_on_save = 1
+      " let g:ale_fixers = {
+      " \  'typescript': [ 'eslint', 'prettier' ],
+      " \  'javascript': [ 'eslint', 'prettier' ],
+      " \  'jsx': [ 'eslint', 'prettier'  ],
+      " \  'json': ['fixjson'],
+      " \  'css': ['prettier'],
+      " \  'markdown': ['prettier'],
+      " \}
+      " let g:ale_fix_on_save = 1
+      let g:ale_fix_on_save = 0
       let g:ale_lint_on_text_changed = 0
       let g:ale_lint_on_insert_leave = 0
       let g:ale_lint_on_save = 1
