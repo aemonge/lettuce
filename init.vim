@@ -472,9 +472,8 @@
     set noshowmode
     set noruler
     set noshowcmd
-    set readonly
+    set nowrap
     :noh
-    exe 'normal A'
   endfunction
 
   function! TerminalThemeOut()
@@ -484,7 +483,7 @@
     set showmode
     set ruler
     set showcmd
-    set noreadonly
+    set wrap
   endfunction
 
   function! NewTermTab()
@@ -511,8 +510,9 @@
   endfunction
 
   function! TerminalPlusPlus()
-    au BufEnter * if &buftype == 'terminal' | call TerminalThemeIn()  | endif
-    au BufLeave * if &buftype == 'terminal' | call TerminalThemeOut() | endif
+    au TerminalOpen * if &buftype == 'terminal' | call TerminalThemeIn() | endif
+    autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | silent! normal i | endif
+    au BufEnter * if &buftype != 'terminal' | call TerminalThemeOut() | endif
     call TerminalMapping()
   endfunction
   exec TerminalPlusPlus()
