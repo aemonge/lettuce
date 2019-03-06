@@ -343,7 +343,8 @@
     Plug 'easymotion/vim-easymotion'                                          " EasyMotion provides a much simpler way to use some motions in vim.
       let g:EasyMotion_smartcase = 1
       nmap s <Plug>(easymotion-overwin-f)
-
+      hi EasyMotionShade  ctermbg=none ctermfg=243
+      hi EasyMotionTarget ctermbg=none ctermfg=red
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                           Syntax
@@ -487,7 +488,7 @@
   endfunction
 
   function! NewTermTab()
-    <C-\><C-n>:tabnew
+    :tabnew<cr>
     :terminal ++curwin
   endfunction
 
@@ -500,7 +501,7 @@
     tnoremap <C-h> <C-\><C-N>gT
 
     " New Terminal in Tab and horizontal split
-    map <C-t> call NewTermTab()
+    noremap <C-t> :call NewTermTab() <cr>
     tnoremap <C-t> <C-\><C-N>:call NewTermTab()
     nmap <leader>x :terminal<cr>
 
