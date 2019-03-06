@@ -10,11 +10,16 @@
   " Change vim-surround single quotes for double: It's easiest to explain with examples. Press cs"'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
-"                      Initialization (Vundle)
+"                      Initialization (Vim-plug)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+
   call plug#begin('~/.vim/plugged')
   Plug 'junegunn/vim-plug'
-
   " Relaod VimRc when modified
     function! PlugAll()
       :PlugClean<cr>
@@ -137,10 +142,10 @@
 "                          Completions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Settings
-    "Line Completion
+    " Line Completion
     imap <C-l> <c-x><C-l>
-    "Omni Completion
-    "imap <C-k> <c-x><c-o>
+    " Omni Completion
+    imap <C-k> <c-x><c-o>
     "Spelling Completion
       imap <C-h> <c-x>s
       if has('win32')
@@ -265,14 +270,6 @@
       let airline#extensions#ale#error_symbol = '✗'
       let airline#extensions#ale#warning_symbol = '∆'
 
-    " Plug 'junegunn/limelight.vim'
-      " map <leader>l :Limelight!!<cr>
-      " let g:limelight_conceal_ctermfg = '243'                                  " Comments color
-      " let g:limelight_paragraph_span = 0
-
-    " Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
-      " Plug 'roxma/nvim-yarp', {'cond': v:version == 800 && !has('nvim')}
-      " Plug 'roxma/vim-hug-neovim-rpc',  {'cond': v:version == 800 && !has('nvim')}
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
@@ -297,39 +294,20 @@
       map <leader>n :NERDTreeFind<cr>
       let NERDTreeDirArrows=1
       let NERDTreeQuitOnOpen = 1
-    " Plug 'tpope/vim-fugitive'                                                  " Git wrapper
-      " nmap <leader>g :Gstatus<cr>
-    " Plug 'airblade/vim-gitgutter'                                              " Git diff sign
-      " set updatetime=100
-      " nmap <leader>tg :GitGutterToggle<cr>
-      " nmap [h <Plug>GitGutterPrevHunk
-      " nmap ]h <Plug>GitGutterNextHunk
     Plug 'tpope/vim-surround'                                                  " Surround
     Plug 'editorconfig/editorconfig-vim'
       let g:EditorConfig_exclude_patterns = ['scp://.*']
-      " let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
     Plug 'mtth/scratch.vim'                                                    " A simple Scratch window for tooling
       nmap <leader>st :Scratch<cr>
-    " Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
-      " nnoremap <leader>u :MundoToggle<CR>
-
-      " if has('win32')
-        " Plug 'shougo/vimproc.vim', {'do' : 'nmake -f make_msvc.mak'}             " Plug 'shougo/vimproc.vim', {'do' : 'make'}
-      " endif
-      " if has('unix')
-        " Plug 'shougo/vimproc.vim', {'do' : 'make'}                              " Plug 'shougo/vimproc.vim', {'do' : 'make'}
-      " endif
-
-    " Plug 'zweifisch/pipe2eval'                                                 " Simple REPL inside vim: supports: python, php, coffee, mysql, mongodb, redis, sh, go, javascript, ruby, elixir
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Expected Enhancements
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Settings
     set laststatus=2                                                           " Enables the status line at the bottom of Vim Only when SPLIT
-    let g:python_host_prog = '/usr/bin/python2'
-    let g:python3_host_prog = '/usr/bin/python3.7'
+    " let g:python_host_prog = '/usr/bin/python2'
+    " let g:python_host_prog = '/usr/bin/python3.7'
+    " let g:python3_host_prog = '/usr/bin/python3.7'
 
 
   " Mappings
@@ -340,11 +318,6 @@
     Plug 'chrisbra/sudoedit.vim'                                               " Enable sudo CRUD operations with none sudo vim instance
     Plug 'tpope/vim-repeat'                                                    " Repeat
     Plug 'Raimondi/delimitMate'                                                " Closing of quotes
-    " Plug 'tmhedberg/matchit'                                                   " Match it
-    " Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
-    " Plug 'vim-scripts/ReplaceWithRegister'
-    " Plug 'othree/eregex.vim'                                                   " Use the Perl/Ruby(/JavaScript) Regex engine.
-      " let g:eregex_default_enable = 0                                          "   Disable eregex, on search use it with :%S// for searchNReplace
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
     " Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
 
@@ -491,26 +464,10 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                        Terminal
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  function! GoTerm()
-    :terminal
-    :call TerminalThemeIn()
-  endfunction
-
-  function! SplitGoTerm()
-    :split
-    :call GoTerm()
-  endfunction
-
-  function! NewTermTab()
-    exec 'tabnew'
-    :call GoTerm()
-  endfunction
-
   function! TerminalThemeIn()
     set nonumber
     set norelativenumber
     set nospell
-    " set laststatus=0
     set noshowmode
     set noruler
     set noshowcmd
@@ -522,20 +479,25 @@
     set number
     set relativenumber
     set spell
-    " set laststatus=2
     set showmode
     set ruler
     set showcmd
   endfunction
 
-  " To use `ALT+{h,j,k,l}` to navigate windows from any mode:
   function! TerminalMapping()
+    " To use `ALT+{h,j,k,l}` to navigate windows from any mode:
     tnoremap <ESC><ESC> <C-\><C-n>
     tnoremap <C-j> <C-\><C-N><C-w>j
     tnoremap <C-k> <C-\><C-N><C-w>k
     tnoremap <C-l> <C-\><C-N>gt
     tnoremap <C-h> <C-\><C-N>gT
-    tnoremap <C-t> <C-\><C-n>:call NewTermTab()<cr>
+
+    " New Terminal in Tab and horizontal split
+    map <C-t> <C-\><C-n>:tabnew | :terminal ++curwin<cr>
+    tnoremap <C-t> <C-\><C-n>:tabnew | :terminal ++curwin<cr>
+    nmap <leader>x :terminal<cr>
+
+    " Refresh and clear command to terminal
     tnoremap <C-l><C-l> clear<cr>
     tnoremap <C-l><C-l><C-l> reset<cr>
   endfunction
@@ -543,12 +505,8 @@
   function! TerminalPlusPlus()
     au BufEnter * if &buftype == 'terminal' | call TerminalThemeIn()  | endif
     au BufLeave * if &buftype == 'terminal' | call TerminalThemeOut() | endif
-    call TerminalMapping()
     set shell=/usr/bin/zsh
-    map <C-T> <C-\><C-n>:exec NewTermTab()<cr>
-
-    " nmap <leader>x :terminal<cr>
-    nmap <leader>x :call SplitGoTerm()<cr>
+    call TerminalMapping()
   endfunction
   exec TerminalPlusPlus()
 
@@ -635,29 +593,38 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "            Discarded Plugs: Written here to remember not to use them
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  " Plug 'csscomb/vim-csscomb'
-  " Plug 'mhinz/vim-startify'                                                  " The fancy start screen
-  " Plug 'majutsushi/tagbar'                                                   " Tag bar
-  " Plug 'shougo/deol.nvim'                                                    " A powerful shell implementation by vim (for windows)
-  " Plug 'jeetsukumaran/vim-buffergator'                                       " Vim Plug to list, select and switch between buffers.
-  " Plug 'jaxbot/browserlink.vim'                                              " Connect vim with broswer console and edition
-  " Plug 'kristijanhusak/vim-multiple-cursors'                                 " Multiple cursors
-  " Plug 'polpo/vim-html-js-indent'                                          " This indent Plug restores the inline JavaScript/HTML indenting support which was removed from vim-javascript.
-  " Plug 'rhysd/devdocs.vim'                                                     " This is a Vim Plug for devdocs, which is an awesome multiple API documentation service. You can open and search devdocs from Vim.
   " Plug 'KeitaNakamura/highlighter.nvim', { 'do': ':UpdateRemotePlugs' }
-  " Plug 'Quramy/vim-js-pretty-template'                                         " provides syntax highlight for contents in Template Strings.
-  " Plug 'vim-scripts/loremipsum'
-  " Plug 'vim-scripts/TwitVim'
-  " Plug 'jason0x43/vim-js-indent'                                               " provides function of indent for both JavaScript and TypeScript.
-  " Plug 'Quramy/vim-dtsm'                                                       " SUPER SLOWS EVERYTHING provides .d.ts management for dtsm users.
-  " Plug 'Quramy/tsuquyomi'                                                      " SUPER SLOWS EVERYTHING Make your Vim a TypeScript IDE
-  " Plug 'mhartington/vim-typings'                                               " SUPER SLOWS EVERYTHING provides .d.ts management for typings users.
-  " Plug 'bendavis78/vim-polymer'
-  " Plug 'moll/vim-node'
-  " Plug 'kylef/apiblueprint.vim'                                            " API Blueprint
-  " Plug 'othree/javascript-libraries-syntax.vim'                              " The alternative for tern_for_vim. Syntax for JS libs
-  " Plug 'haya14busa/incsearch.vim'                                            " Improved incremental searching for Vim
-  " Plug 'haya14busa/incsearch-fuzzy.vim'
-  " Plug 'haya14busa/incsearch-easymotion.vim'
   " Plug 'Lokaltog/vim-easymotion'                                             " Easy motion
-  "
+  " Plug 'Quramy/tsuquyomi'                                                      " SUPER SLOWS EVERYTHING Make your Vim a TypeScript IDE
+  " Plug 'Quramy/vim-dtsm'                                                       " SUPER SLOWS EVERYTHING provides .d.ts management for dtsm users.
+  " Plug 'Quramy/vim-js-pretty-template'                                         " provides syntax highlight for contents in Template Strings.
+  " Plug 'airblade/vim-gitgutter'                                              " Git diff sign
+  " Plug 'bendavis78/vim-polymer'
+  " Plug 'csscomb/vim-csscomb'
+  " Plug 'haya14busa/incsearch-easymotion.vim'
+  " Plug 'haya14busa/incsearch-fuzzy.vim'
+  " Plug 'haya14busa/incsearch.vim'                                            " Improved incremental searching for Vim
+  " Plug 'jason0x43/vim-js-indent'                                               " provides function of indent for both JavaScript and TypeScript.
+  " Plug 'jaxbot/browserlink.vim'                                              " Connect vim with broswer console and edition
+  " Plug 'jeetsukumaran/vim-buffergator'                                       " Vim Plug to list, select and switch between buffers.
+  " Plug 'junegunn/limelight.vim'
+  " Plug 'kristijanhusak/vim-multiple-cursors'                                 " Multiple cursors
+  " Plug 'kylef/apiblueprint.vim'                                            " API Blueprint
+  " Plug 'majutsushi/tagbar'                                                   " Tag bar
+  " Plug 'mhartington/vim-typings'                                               " SUPER SLOWS EVERYTHING provides .d.ts management for typings users.
+  " Plug 'mhinz/vim-startify'                                                  " The fancy start screen
+  " Plug 'moll/vim-node'
+  " Plug 'othree/eregex.vim'                                                   " Use the Perl/Ruby(/JavaScript) Regex engine.
+  " Plug 'othree/javascript-libraries-syntax.vim'                              " The alternative for tern_for_vim. Syntax for JS libs
+  " Plug 'polpo/vim-html-js-indent'                                          " This indent Plug restores the inline JavaScript/HTML indenting support which was removed from vim-javascript.
+  " Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
+  " Plug 'rhysd/devdocs.vim'                                                     " This is a Vim Plug for devdocs, which is an awesome multiple API documentation service. You can open and search devdocs from Vim.
+  " Plug 'shougo/deol.nvim'                                                    " A powerful shell implementation by vim (for windows)
+  " Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
+  " Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
+  " Plug 'tmhedberg/matchit'                                                   " Match it
+  " Plug 'tpope/vim-fugitive'                                                  " Git wrapper
+  " Plug 'vim-scripts/ReplaceWithRegister'
+  " Plug 'vim-scripts/TwitVim'
+  " Plug 'vim-scripts/loremipsum'
+  " Plug 'zweifisch/pipe2eval'                                                 " Simple REPL inside vim: supports: python, php, coffee, mysql, mongodb, redis, sh, go, javascript, ruby, elixir
