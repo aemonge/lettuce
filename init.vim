@@ -156,7 +156,7 @@
 
   " Plugs
     if has('unix')
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer; npm i -g typescript' }
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer' }
         let g:ycm_collect_identifiers_from_comments_and_strings = 1
         let g:ycm_collect_identifiers_from_tags_files = 1
     endif
@@ -225,6 +225,7 @@
         hi SpellBad     gui=underline cterm=underline
         hi SpellCap     gui=underline cterm=underline
         hi NonText      ctermbg=none
+        hi Terminal     ctermbg=none
         hi Normal       ctermbg=none
         hi Folded       ctermbg=none
         hi CursorLine   ctermbg=none
@@ -471,8 +472,9 @@
     set noshowmode
     set noruler
     set noshowcmd
+    set readonly
     :noh
-    exe 'normal Ga'
+    exe 'normal A'
   endfunction
 
   function! TerminalThemeOut()
@@ -482,6 +484,12 @@
     set showmode
     set ruler
     set showcmd
+    set noreadonly
+  endfunction
+
+  function! NewTermTab()
+    <C-\><C-n>:tabnew
+    :terminal ++curwin
   endfunction
 
   function! TerminalMapping()
@@ -493,8 +501,8 @@
     tnoremap <C-h> <C-\><C-N>gT
 
     " New Terminal in Tab and horizontal split
-    map <C-t> <C-\><C-n>:tabnew | :terminal ++curwin<cr>
-    tnoremap <C-t> <C-\><C-n>:tabnew | :terminal ++curwin<cr>
+    map <C-t> call NewTermTab()
+    tnoremap <C-t> <C-\><C-N>:call NewTermTab()
     nmap <leader>x :terminal<cr>
 
     " Refresh and clear command to terminal
@@ -505,7 +513,6 @@
   function! TerminalPlusPlus()
     au BufEnter * if &buftype == 'terminal' | call TerminalThemeIn()  | endif
     au BufLeave * if &buftype == 'terminal' | call TerminalThemeOut() | endif
-    set shell=/usr/bin/zsh
     call TerminalMapping()
   endfunction
   exec TerminalPlusPlus()
@@ -627,4 +634,4 @@
   " Plug 'vim-scripts/ReplaceWithRegister'
   " Plug 'vim-scripts/TwitVim'
   " Plug 'vim-scripts/loremipsum'
-  " Plug 'zweifisch/pipe2eval'                                                 " Simple REPL inside vim: supports: python, php, coffee, mysql, mongodb, redis, sh, go, javascript, ruby, elixir
+  " Plug 'zweifisch/pipe2eval'
