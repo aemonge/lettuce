@@ -213,10 +213,10 @@
   " Plugs
     Plug 'godlygeek/CSApprox'
     Plug 'w0ng/vim-hybrid'                                                     " Colorscheme hybrid
-    Plug 'altercation/vim-colors-solarized'
+    " Plug 'altercation/vim-colors-solarized'
       function! SetTheme()
         set background=dark
-        colorscheme solarized
+        " colorscheme solarized
         colorscheme hybrid
         hi clear SpellBad
         hi clear SpellCap
@@ -291,10 +291,8 @@
         \ 'file': '\v\.(exe|so|dll)$',
         \ }
       nmap <C-b> :CtrlPBuffer<cr>
-    Plug 'aemonge/nerdcommenter'                                               " NERD commenter
-      let NERDSpaceDelims=1
-      let NERDRemoveExtraSpaces=1
-      map <leader>/ <plug>NERDCommenterToggle
+    Plug 'tpope/vim-commentary'                                                " Comment stuff out
+      noremap <leader>/ :Commentary<cr>
     Plug 'tpope/vim-surround'                                                  " Surround
     Plug 'editorconfig/editorconfig-vim'
       let g:EditorConfig_exclude_patterns = ['scp://.*']
@@ -631,3 +629,4 @@
   " Plug 'vim-scripts/colorsupport.vim'
   " Plug 'scrooloose/nerdtree'                                                 " NERD tree
   " Plug 'easymotion/vim-easymotion'                                          " EasyMotion provides a much simpler way to use some motions in vim.
+  " Plug 'aemonge/nerdcommenter'                                               " NERD commenter
