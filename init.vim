@@ -171,7 +171,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Settings
     set foldlevelstart=0                                                       " Start with all folds closed
-    au User Startified %foldopen! | exec SetTheme()
     set foldmethod=indent
 
   " Mappings
@@ -212,10 +211,9 @@
     set cc=120                                                                 " visible column at 120 so we can knwo our limit
 
   " Plugs
-    Plug 'vim-scripts/colorsupport.vim'
+    Plug 'godlygeek/CSApprox'
     Plug 'w0ng/vim-hybrid'                                                     " Colorscheme hybrid
     Plug 'altercation/vim-colors-solarized'
-
       function! SetTheme()
         set background=dark
         colorscheme solarized
@@ -276,6 +274,15 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                             IDE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  " Nerd Tree alike file explorer
+    map <leader>n :Vexplore
+    map <leader>N :Vexplore
+      let g:netrw_altv = 1
+      let g:netrw_banner = 0
+      let g:netrw_liststyle = 3
+      let g:netrw_browse_split = 3
+      let g:netrw_winsize = 25
+
   " Plugs
     Plug 'ctrlpvim/ctrlp.vim'                                                  " Fuzzy file opener
       let g:ctrlp_map = '<c-p>'
@@ -290,11 +297,6 @@
       let NERDSpaceDelims=1
       let NERDRemoveExtraSpaces=1
       map <leader>/ <plug>NERDCommenterToggle
-    Plug 'scrooloose/nerdtree'                                                 " NERD tree
-      map <leader>N :NERDTreeToggle<cr>
-      map <leader>n :NERDTreeFind<cr>
-      let NERDTreeDirArrows=1
-      let NERDTreeQuitOnOpen = 1
     Plug 'tpope/vim-surround'                                                  " Surround
     Plug 'editorconfig/editorconfig-vim'
       let g:EditorConfig_exclude_patterns = ['scp://.*']
@@ -320,7 +322,7 @@
     Plug 'tpope/vim-repeat'                                                    " Repeat
     Plug 'Raimondi/delimitMate'                                                " Closing of quotes
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
-    " Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
+    Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                           Motions
@@ -339,12 +341,6 @@
       xmap ib <Plug>CamelCaseMotion_ib
       omap ie <Plug>CamelCaseMotion_ie
       xmap ie <Plug>CamelCaseMotion_ie
-
-    Plug 'easymotion/vim-easymotion'                                          " EasyMotion provides a much simpler way to use some motions in vim.
-      let g:EasyMotion_smartcase = 1
-      nmap s <Plug>(easymotion-overwin-f)
-      hi EasyMotionShade  ctermbg=none ctermfg=243
-      hi EasyMotionTarget ctermbg=none ctermfg=red
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                           Syntax
@@ -595,7 +591,8 @@
   " Theme Should be at last I don't know why
       call plug#end()
       exec SetTheme()
-      au VimEnter,BufNewFile,BufReadPost * exec SetTheme() | AirlineRefresh
+      " au VimEnter,BufNewFile,BufReadPost * exec SetTheme() | AirlineRefresh
+      " au VimEnter,BufNewFile,BufReadPost * exec SetTheme()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
@@ -636,3 +633,6 @@
   " Plug 'vim-scripts/TwitVim'
   " Plug 'vim-scripts/loremipsum'
   " Plug 'zweifisch/pipe2eval'
+  " Plug 'vim-scripts/colorsupport.vim'
+  " Plug 'scrooloose/nerdtree'                                                 " NERD tree
+  " Plug 'easymotion/vim-easymotion'                                          " EasyMotion provides a much simpler way to use some motions in vim.
