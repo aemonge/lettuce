@@ -130,7 +130,7 @@
       " imap <C-v> <Esc>:set paste<cr>:r !pbpaste<cr>:set nopaste<cr>
       " Linux support
       imap <C-v> <C-o>"+p
-      set clipboard+=unnamedplus
+      set clipboard=unnamed
     vmap <C-p> "+p<cr>
     vmap <C-C> "+y
     vmap  "+y
@@ -275,11 +275,11 @@
 "                             IDE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Nerd Tree alike file explorer
-    map <leader>n :Vexplore<cr>
-      let g:netrw_banner = 0
-      let g:netrw_liststyle = 3
-      let g:netrw_browse_split = 3
-      let g:netrw_winsize = 25
+    Plug 'scrooloose/nerdtree'                                                 " NERD tree
+      map <leader>N :NERDTreeToggle<cr>
+      map <leader>n :NERDTreeFind<cr>
+      let NERDTreeDirArrows=1
+      let NERDTreeQuitOnOpen = 1
 
   " Plugs
     Plug 'ctrlpvim/ctrlp.vim'                                                  " Fuzzy file opener
@@ -349,7 +349,6 @@
       au BufNewFile,BufReadPost *.wiki set filetype=confluencewiki
     Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint vimlint prettier jsonlint fixjson eslint-plugin-react eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack' }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
-      let g:ale_lint_on_text_changed = 'never'
       Plug 'Valloric/ListToggle'
         map <script> <silent> <leader>e :call ToggleLocationList()<CR>
         map <leader>ee :ALEDetail<cr><C-W>w
@@ -373,11 +372,11 @@
       " \  'markdown': ['prettier'],
       " \}
       " let g:ale_fix_on_save = 1
-      let g:ale_fix_on_save = 0
-      let g:ale_lint_on_text_changed = 0
-      let g:ale_lint_on_insert_leave = 0
       let g:ale_lint_on_save = 1
-      let g:ale_lint_on_enter = 0
+      let g:ale_lint_on_enter=0
+      let g:ale_lint_on_filetype_changed=0
+      let g:ale_lint_on_insert_leave=0
+      let g:ale_lint_on_text_changed=0
     Plug 'ternjs/tern_for_vim', { 'do' : 'npm i' }                             " This is a Vim plugin that provides Tern-based JavaScript editing support.
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
