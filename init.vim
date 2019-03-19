@@ -5,7 +5,7 @@
   " :b <number> 	Display the buffer with the given number.
   " :b <partial> 	Display the first buffer matching the partial name (or press Tab for name completion).
   "
-  " DEPS `npm i -g ts-server tslint eslint js-beautify typescript-formatter eslint-plugin-jq uery eslint-plugin-angular xo html-beautify jsonlint` `pacman -S ag neovim tidy python make python-pip cmake gcc-c++ make python3-devel pencil gimp trash-cli fzf cowsay tidy file-roller xclip mongodb`
+  " DEPS `npm i -g ts-server tslint eslint js-beautify typescript-formatter eslint-plugin-jq uery eslint-plugin-angular xo html-beautify jsonlint jsctags` `pacman -S ag neovim tidy python make python-pip cmake gcc-c++ make python3-devel pencil gimp trash-cli fzf cowsay tidy file-roller xclip mongodb`
   "
   " Change vim-surround single quotes for double: It's easiest to explain with examples. Press cs"'
 
@@ -155,16 +155,47 @@
     imap <C-f> <c-x><c-f>
 
   " Plugs
-    if has('unix')
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer' }
-        let g:ycm_collect_identifiers_from_comments_and_strings = 1
-        let g:ycm_collect_identifiers_from_tags_files = 1
-    endif
-    Plug 'SirVer/ultisnips'
-      Plug 'honza/vim-snippets'
-      let g:UltiSnipsExpandTrigger="<C-K>"
-      let g:UltiSnipsJumpForwardTrigger="<C-F>"
-      let g:UltiSnipsJumpBackwardTrigger="<C-B>"
+    Plug 'Shougo/neocomplete.vim'                                            " Full time complete (alternative for YCM)
+    let g:neocomplete#enable_at_startup = 1
+    let g:neocomplete#enable_smart_case = 1
+    let g:neocomplete#sources#syntax#min_keyword_length = 4
+    let g:neocomplete#enable_auto_select = 1
+    let g:neocomplete#auto_complete_delay = 30
+    let g:neocomplete#enable_fuzzy_completion = 1
+      " <TAB>: completion. and closing with C-K and C-L
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " Start the completion with C-K accept it with C-L
+    inoremap <expr><C-K> neocomplete#start_manual_complete()
+    inoremap <expr><C-L> neocomplete#smart_close_popup()."\<CR>"
+    inoremap <expr><C-L> pumvisible() ? "\<C-y>" : "\<CR>"
+    " Close completion pop-up when deleting character
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+
+    " Enable omni completion.
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer' }
+  "     let g:ycm_collect_identifiers_from_comments_and_strings = 1
+  "     let g:ycm_collect_identifiers_from_tags_files = 1
+  " Plug 'Shougo/deoplete.nvim'                                                " Dark powered asynchronous completion framework for neovim/Vim8
+    " Plug 'roxma/nvim-yarp'
+    " Plug 'roxma/vim-hug-neovim-rpc'
+    " let g:deoplete#enable_at_startup = 1
+  " Plug 'Shougo/neosnippet.vim'
+  "   Plug 'Shougo/neosnippet-snippets'
+    " Plugin key-mappings.
+    " imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    " smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    " xmap <C-k>     <Plug>(neosnippet_expand_target)
+  " Plug 'SirVer/ultisnips'
+    " Plug 'honza/vim-snippets'
+    " let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+  "   let g:UltiSnipsExpandTrigger="<C-K>"
+  "   let g:UltiSnipsJumpForwardTrigger="<C-F>"
+  "   let g:UltiSnipsJumpBackwardTrigger="<C-B>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                         Fold Related
@@ -213,7 +244,6 @@
   " Plugs
     Plug 'godlygeek/CSApprox'
     Plug 'w0ng/vim-hybrid'                                                     " Colorscheme hybrid
-    " Plug 'altercation/vim-colors-solarized'
       function! SetTheme()
         set background=dark
         " colorscheme solarized
@@ -252,7 +282,7 @@
       let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
       let g:airline_extensions = ['tabline', 'clock', 'ale']
       " Fugitive
-      " let g:airline#extensions#fugitiveline#enabled = 1
+      let g:airline#extensions#fugitiveline#enabled = 1
       " Tab-line
       let g:airline#extensions#tabline#show_tab_nr = 0
       let g:airline#extensions#tabline#tabs_label = ''
@@ -298,6 +328,7 @@
       let g:EditorConfig_exclude_patterns = ['scp://.*']
     Plug 'mtth/scratch.vim'                                                    " A simple Scratch window for tooling
       nmap <leader>st :Scratch<cr>
+    Plug 'tpope/vim-fugitive'                                                  " Git wrapper
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Expected Enhancements
@@ -318,7 +349,7 @@
     Plug 'tpope/vim-repeat'                                                    " Repeat
     Plug 'Raimondi/delimitMate'                                                " Closing of quotes
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
-    Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
+    " Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                           Motions
@@ -344,10 +375,10 @@
   " Plugs
     Plug 'sheerun/vim-polyglot'                                                " Language Support a TON
       let g:polyglot_disabled = ['graphql']                                      " Due to the following bug: https://github.com/sheerun/vim-polyglot/issues/331
-      Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
+      " Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
       Plug 'flniu/confluencewiki.vim'                                          " Support for confluence wiki (also jira descriptions)
       au BufNewFile,BufReadPost *.wiki set filetype=confluencewiki
-    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint vimlint prettier jsonlint fixjson eslint-plugin-react eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack' }              " A version of Syntactic that works a-sync
+    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint vimlint prettier jsonlint fixjson eslint-plugin-react eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack jsctags' }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       Plug 'Valloric/ListToggle'
         map <script> <silent> <leader>e :call ToggleLocationList()<CR>
@@ -363,15 +394,16 @@
       \  'jsx': [ 'eslint' ],
       \  'json': [ 'jsonlint' ]
       \}
-      " let g:ale_fixers = {
-      " \  'typescript': [ 'eslint', 'prettier' ],
-      " \  'javascript': [ 'eslint', 'prettier' ],
-      " \  'jsx': [ 'eslint', 'prettier'  ],
-      " \  'json': ['fixjson'],
-      " \  'css': ['prettier'],
-      " \  'markdown': ['prettier'],
-      " \}
-      " let g:ale_fix_on_save = 1
+      let g:ale_fixers = {
+      \  'typescript': [ 'tslint', 'prettier' ],
+      \  'javascript': [ 'eslint', 'prettier' ],
+      \  'jsx': [ 'eslint', 'prettier'  ],
+      \  'json': ['fixjson'],
+      \  'css': ['prettier'],
+      \  'markdown': ['prettier'],
+      \  '*': ['prettier']
+      \}
+      let g:ale_fix_on_save = 0
       let g:ale_lint_on_save = 1
       let g:ale_lint_on_enter=0
       let g:ale_lint_on_filetype_changed=0
@@ -423,8 +455,12 @@
       vmap <Leader>a :Tab<CR>
       nmap <Leader>t :Tabularize /
       vmap <Leader>t :Tabularize /
+    function! AutoFormatNFix()
+      :Autoformat
+      :ALEFix
+    endfunction
     Plug 'chiel92/vim-autoformat', { 'do': 'npm install -g js-beautify eslint typescript-formatter' }       " Format all code uses js-beautify for JS
-     noremap <leader>= :Autoformat<CR>
+     noremap <leader>= :call AutoFormatNFix()<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
@@ -493,7 +529,7 @@
 
     " New Terminal in Tab and horizontal split
     noremap <C-t> :call NewTermTab() <cr>
-    tnoremap <C-t> <C-\><C-N>:call NewTermTab()
+    tnoremap <C-t> <C-\><C-N>:call NewTermTab()<cr>
     nmap <leader>x :terminal<cr>
 
     " Refresh and clear command to terminal
@@ -620,7 +656,6 @@
   " Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
   " Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
   " Plug 'tmhedberg/matchit'                                                   " Match it
-  " Plug 'tpope/vim-fugitive'                                                  " Git wrapper
   " Plug 'vim-scripts/ReplaceWithRegister'
   " Plug 'vim-scripts/TwitVim'
   " Plug 'vim-scripts/loremipsum'
@@ -629,3 +664,4 @@
   " Plug 'scrooloose/nerdtree'                                                 " NERD tree
   " Plug 'easymotion/vim-easymotion'                                          " EasyMotion provides a much simpler way to use some motions in vim.
   " Plug 'aemonge/nerdcommenter'                                               " NERD commenter
+  " Plug 'altercation/vim-colors-solarized'
