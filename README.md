@@ -1,27 +1,64 @@
-# Lettuce: (neo) Vim Distribution
+# Lettuce: Vim Distribution (8.1)
 
-This is a distribution of plug-ins and mappings for Neo-Vim, Vim, Gvim and MacVim.  It is designed to provide minimal working environment using the most popular plug-ins and the most common mappings.  The distribution is completely custom by overwriting the main configuration file. It differs from other distribution which hide configurations, I kept all together to easy customization of the distribution.
+This is a distribution of plug-ins and mappings for Vim, Gvim and MacVim.  It is designed to provide minimal working environment using the most popular plug-ins and the most common mappings (meant for US keyboard).
+
+I've done a yearly selection of the most useful and fast plugins, keeping vim as fast as you're used to but even more powerful. This distribution is meant for you to fork and modify it freely. I could have packaged the distribution to keep the _vimrc_ file cleaner and more readable, but it would hide the mappings (and dark magics) that I do for you. So having the distribution been all written in the _vimrc_ file provides a clear knowledge on which plugins I use, which mappings and settings are being set and even you can comment them or modify their options easily.
+
+#### I trust you !
+> If you really really trust me, simply execute this `curl` to install this distribution, and remember to manually install the **pre-requisites**.
+
+`culr http://magic`
 
 ## Pre-requisites
 
-The distribution is designed to work with Vim >= 8.0 or Neo vim.
+The distribution is designed to work with Vim >= 8.1, taking advantage of the multi-thread plugin engine and the `:terminal` full integration. It also requires to be compiled with the following flags: `+terminal +clientserver +clipboard +python3`. To verify version and flags run `vim --version`
 
-The distribution also requires `ack`, `ctags`, `git`, and `ag` the silver search
+[Official Vim GitHub](https://github.com/vim/vim/)
+
+It also uses the NPM package manager for node, to have a live syntactical linter [(ALE)](https://github.com/w0rp/ale). And utilizes full 256 terminal colors, with GUI support. So please verify your terminal supports 256 color, which most modern terminal have. You can follow this Wikipedia article that list the [supported terminals](https://en.wikipedia.org/wiki/Comparison_of_terminal_emulators).
+
+> I also recommend setting the colorschme to the dark-vim-hybrid for your terminal following these [instrucctions](https://github.com/w0ng/vim-hybrid)
+
+
+### Install dependencies --Arch Linux--
+> for mac and other distributions please replace the package manager accordingly, ie `brew install node`
+
+* `pacman -S node`. [nodejs](https://nodejs.org/)
+* `pacman -S git`. If you're in github, you probably have git installed ;)
+* `pacman -S ctags`. [ctags](https://github.com/universal-ctags/ctags)
+* `pacman -S the_silver_searcher`. [the_silver_searcher](https://github.com/ggreer/the_silver_searcher)
+
+
+#### Mac OS Caveats
+
+Compilation of Vim8.1 with the `+clientserver` requires *XQuartz*, for a more details in why is this required please [read this post](http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html).
+
+_**tl;dr**_
+
+* `brew install xquartz`
+* `brew install vim --with-client-server`
 
 
 ## Installation
 
-To install Lettuce, please install vim plugin manager [vundle](https://github.com/VundleVim/Vundle.vim) and move the file to the correct path:
+To manually install lettuce, simple copy and paste my __.vimrc__ file into your home __~/.vimrc__. Or if you want to keep up to date with me, without forking me (recommend) create a symbolic link such as:
 
-  *vim* ~/.vimrc
-  *neo vim* ~/.local/share/nvim/init.vim
+`cd ~/some/path/to/you/libraries;`
+`git clone git@github.com:aemonge/lettuce.git;`
+`ln -s ~/some/path/to/you/libraries/lettuce/.vimrc ~/.;`
 
+Then start vim, ignoring all errors; things should start installing for you and the second time you open vim there should be no errors. The magic happens thanks to the wonderfull plugin manager [vim-plug](https://github.com/junegunn/vim-plug).
 
-# Intro to VIM
+## Uninstall
+
+To clear your vim from plugins and mapping simple remove the __vim__ dir and my __vimrc__ file.
+`rm -rf ~/.vimrc ~/.vim`
+
+## Intro to VIM
 
 Play this game [vim-adventures](https://vim-adventures.com/) and here are some tips in case you've never used VIM before:
 
-## Tutorials
+### Tutorials
 
 * Type `vimtutor` into a shell to go through a brief interactive
   tutorial inside VIM.
@@ -35,7 +72,7 @@ Play this game [vim-adventures](https://vim-adventures.com/) and here are some t
 * Read the [Getting Started with Vim](http://www.sitepoint.com/getting-started-vim/) tutorial on SitePoint
 * Read the [Effective Rails Development with Vim](http://www.sitepoint.com/effective-rails-development-vim/) tutorial on SitePoint
 
-## Modes
+### Modes
 
 * VIM has three modes:
   * insert mode- stuff you type is added to the buffer
@@ -46,7 +83,16 @@ Play this game [vim-adventures](https://vim-adventures.com/) and here are some t
 * To enter visual mode, hit `v`
 * To exit visual mode, hit `<ESC>`
 
-# License
+
+
+## Special Thanks
+> to my favorite vim plugin developers and enthusiast:
+
+* [junegunn](https://github.com/junegunn*)
+* [tpope](https://github.com/tpope)
+* [Shougo](https://github.com/Shougo)
+
+## License
 
 ### This code is free to use under the terms of the MIT license.
 
