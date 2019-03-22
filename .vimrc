@@ -223,7 +223,7 @@
     Plug 'w0ng/vim-hybrid'                                                     " Colorscheme hybrid
       silent! function! SetTheme()
         set background=dark
-        silent! colorscheme hybrid
+        colorscheme hybrid
         hi clear SpellBad
         hi clear SpellCap
         hi SpellBad     gui=underline cterm=underline
@@ -509,10 +509,17 @@
     tnoremap <C-l><C-l><C-l> reset<cr>
   endfunction
 
+  function! TerminalIfLastExit()
+    if tabpagenr('$') == 1 " We are (currently) not in the last tab
+      :qa
+    endif
+  endfunction
+
   function! TerminalPlusPlus()
     au TerminalOpen * if &buftype == 'terminal' | call TerminalThemeIn() | endif
     autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | silent! normal i | endif
     au BufEnter * if &buftype != 'terminal' | call TerminalThemeOut() | endif
+    au BufLeave * if &buftype == 'terminal' | call TerminalIfLastExit() | endif
     call TerminalMapping()
   endfunction
   exec TerminalPlusPlus()
@@ -592,7 +599,7 @@
       au VimEnter * call AddCycleGroup(['sunday', 'monday', 'tuesday', 'wensday', 'thursday', 'friday', 'saturday'])
 
   " Theme Should be at last I don't know why
-      silent! exec SetTheme()
+      exec SetTheme()
       call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
