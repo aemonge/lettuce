@@ -1,4 +1,4 @@
-# Lettuce: Vim Distribution (8.1)
+# Lettucr: Vim Distribution (8.1)
 
 This is a distribution of plug-ins and mappings for Vim, Gvim and MacVim.  It is designed to provide minimal working environment using the most popular plug-ins and the most common mappings (meant for US keyboard).
 
@@ -47,9 +47,9 @@ To manually install lettuce, simple copy and paste my __.vimrc__ file into your 
 `git clone git@github.com:aemonge/lettuce.git;`
 `ln -s ~/some/path/to/you/libraries/lettuce/.vimrc ~/.;`
 
-Then start vim, ignoring all errors; things should start installing for you and the second time you open vim there should be no errors. The magic happens thanks to the wonderfull plugin manager [vim-plug](https://github.com/junegunn/vim-plug).
+Then start vim, and let the magic of the plugin manager [(vim-plug)](https://github.com/junegunn/vim-plug) work for us :)
 
-### Kill -9 tmux, screen, terminator, multiplexor !
+### Kill -9 tmux, screen, terminator, multiplexor! Aka use vim as a replacement
 > I've written a tiny script to make vim act as any multiplexor. Providing you with the same context everywhere, because *it's all text!*
 
 __**~/.bashrc** or **~/.zshrc**__
