@@ -221,7 +221,7 @@
   " Plugs
     Plug 'godlygeek/CSApprox'
     Plug 'w0ng/vim-hybrid'                                                     " Colorscheme hybrid
-      function! SetTheme()
+      silent! function! SetTheme()
         set background=dark
         silent! colorscheme hybrid
         hi clear SpellBad
