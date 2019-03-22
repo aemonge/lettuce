@@ -57,7 +57,7 @@ __**~/.bashrc** or **~/.zshrc**__
 # My own version of tmux
   if [ $VIM_TERMINAL ]; then
     # First change directory to PWD, then open files. Giving a IDE impression
-    alias vim="vim --servername $VIM_TERMINAL_PARENT_ID --remote-send \"<C-\><C-n>:cd $(pwd)<cr>\" --remote-tab"
+    alias vim='vim --servername $VIM_TERMINAL_PARENT_ID --remote-send "<C-\><C-n>:cd $PWD <cr>" --remote-tab'
   fi
   if [ -z $VIM_TERMINAL ]; then
     export VIM_TERMINAL_PARENT_ID="$$-VMUX";
