@@ -4,9 +4,6 @@
   " BUFFERS !!!
   " :b <number> 	Display the buffer with the given number.
   " :b <partial> 	Display the first buffer matching the partial name (or press Tab for name completion).
-  "
-  " DEPS `npm i -g ts-server tslint eslint js-beautify typescript-formatter eslint-plugin-jq uery eslint-plugin-angular xo html-beautify jsonlint jsctags` `pacman -S ag neovim tidy python make python-pip cmake gcc-c++ make python3-devel pencil gimp trash-cli fzf cowsay tidy file-roller xclip mongodb`
-  "
   " Change vim-surround single quotes for double: It's easiest to explain with examples. Press cs"'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
@@ -28,7 +25,6 @@
     endfunction
     autocmd! VimLeavePre .vimrc :source ~/.vimrc | exec PlugAll()
 
-  set shell=/usr/bin/zsh
   " For windows set the correct shell environments
   if has('win32')
     let $CHERE_INVOKING=1                                                     " Makes bash open in the working directory
@@ -177,25 +173,6 @@
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer' }
-  "     let g:ycm_collect_identifiers_from_comments_and_strings = 1
-  "     let g:ycm_collect_identifiers_from_tags_files = 1
-  " Plug 'Shougo/deoplete.nvim'                                                " Dark powered asynchronous completion framework for neovim/Vim8
-    " Plug 'roxma/nvim-yarp'
-    " Plug 'roxma/vim-hug-neovim-rpc'
-    " let g:deoplete#enable_at_startup = 1
-  " Plug 'Shougo/neosnippet.vim'
-  "   Plug 'Shougo/neosnippet-snippets'
-    " Plugin key-mappings.
-    " imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    " smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    " xmap <C-k>     <Plug>(neosnippet_expand_target)
-  " Plug 'SirVer/ultisnips'
-    " Plug 'honza/vim-snippets'
-    " let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-  "   let g:UltiSnipsExpandTrigger="<C-K>"
-  "   let g:UltiSnipsJumpForwardTrigger="<C-F>"
-  "   let g:UltiSnipsJumpBackwardTrigger="<C-B>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                         Fold Related
@@ -246,7 +223,6 @@
     Plug 'w0ng/vim-hybrid'                                                     " Colorscheme hybrid
       function! SetTheme()
         set background=dark
-        " colorscheme solarized
         colorscheme hybrid
         hi clear SpellBad
         hi clear SpellCap
@@ -335,10 +311,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Settings
     set laststatus=2                                                           " Enables the status line at the bottom of Vim Only when SPLIT
-    " let g:python_host_prog = '/usr/bin/python2'
-    " let g:python_host_prog = '/usr/bin/python3.7'
-    " let g:python3_host_prog = '/usr/bin/python3.7'
-
 
   " Mappings
     " When pasting don't replace the current register.
@@ -378,7 +350,7 @@
       " Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
       Plug 'flniu/confluencewiki.vim'                                          " Support for confluence wiki (also jira descriptions)
       au BufNewFile,BufReadPost *.wiki set filetype=confluencewiki
-    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint vimlint prettier jsonlint fixjson eslint-plugin-react eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack jsctags' }              " A version of Syntactic that works a-sync
+    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint vimlint prettier jsonlint fixjson eslint-plugin-react eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack jsctags stylelint-config-recommended' }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       Plug 'Valloric/ListToggle'
         map <script> <silent> <leader>e :call ToggleLocationList()<CR>
@@ -626,17 +598,27 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "            Discarded Plugs: Written here to remember not to use them
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
   " Plug 'KeitaNakamura/highlighter.nvim', { 'do': ':UpdateRemotePlugs' }
   " Plug 'Lokaltog/vim-easymotion'                                             " Easy motion
   " Plug 'Quramy/tsuquyomi'                                                      " SUPER SLOWS EVERYTHING Make your Vim a TypeScript IDE
   " Plug 'Quramy/vim-dtsm'                                                       " SUPER SLOWS EVERYTHING provides .d.ts management for dtsm users.
   " Plug 'Quramy/vim-js-pretty-template'                                         " provides syntax highlight for contents in Template Strings.
+  " Plug 'Shougo/deoplete.nvim'                                                " Dark powered asynchronous completion framework for neovim/Vim8
+  " Plug 'Shougo/neosnippet-snippets'
+  " Plug 'Shougo/neosnippet.vim'
+  " Plug 'SirVer/ultisnips'
+  " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --js-completer' }
+  " Plug 'aemonge/nerdcommenter'                                               " NERD commenter
   " Plug 'airblade/vim-gitgutter'                                              " Git diff sign
+  " Plug 'altercation/vim-colors-solarized'
   " Plug 'bendavis78/vim-polymer'
   " Plug 'csscomb/vim-csscomb'
+  " Plug 'easymotion/vim-easymotion'                                          " EasyMotion provides a much simpler way to use some motions in vim.
   " Plug 'haya14busa/incsearch-easymotion.vim'
   " Plug 'haya14busa/incsearch-fuzzy.vim'
   " Plug 'haya14busa/incsearch.vim'                                            " Improved incremental searching for Vim
+  " Plug 'honza/vim-snippets'
   " Plug 'jason0x43/vim-js-indent'                                               " provides function of indent for both JavaScript and TypeScript.
   " Plug 'jaxbot/browserlink.vim'                                              " Connect vim with broswer console and edition
   " Plug 'jeetsukumaran/vim-buffergator'                                       " Vim Plug to list, select and switch between buffers.
@@ -652,16 +634,15 @@
   " Plug 'polpo/vim-html-js-indent'                                          " This indent Plug restores the inline JavaScript/HTML indenting support which was removed from vim-javascript.
   " Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
   " Plug 'rhysd/devdocs.vim'                                                     " This is a Vim Plug for devdocs, which is an awesome multiple API documentation service. You can open and search devdocs from Vim.
+  " Plug 'roxma/nvim-yarp'
+  " Plug 'roxma/vim-hug-neovim-rpc'
+  " Plug 'scrooloose/nerdtree'                                                 " NERD tree
   " Plug 'shougo/deol.nvim'                                                    " A powerful shell implementation by vim (for windows)
   " Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
   " Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
   " Plug 'tmhedberg/matchit'                                                   " Match it
   " Plug 'vim-scripts/ReplaceWithRegister'
   " Plug 'vim-scripts/TwitVim'
+  " Plug 'vim-scripts/colorsupport.vim'
   " Plug 'vim-scripts/loremipsum'
   " Plug 'zweifisch/pipe2eval'
-  " Plug 'vim-scripts/colorsupport.vim'
-  " Plug 'scrooloose/nerdtree'                                                 " NERD tree
-  " Plug 'easymotion/vim-easymotion'                                          " EasyMotion provides a much simpler way to use some motions in vim.
-  " Plug 'aemonge/nerdcommenter'                                               " NERD commenter
-  " Plug 'altercation/vim-colors-solarized'
