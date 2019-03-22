@@ -592,8 +592,8 @@
       au VimEnter * call AddCycleGroup(['sunday', 'monday', 'tuesday', 'wensday', 'thursday', 'friday', 'saturday'])
 
   " Theme Should be at last I don't know why
-      call plug#end()
       exec SetTheme()
+      call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "            Discarded Plugs: Written here to remember not to use them
