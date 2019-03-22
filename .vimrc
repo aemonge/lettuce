@@ -223,7 +223,7 @@
     Plug 'w0ng/vim-hybrid'                                                     " Colorscheme hybrid
       function! SetTheme()
         set background=dark
-        colorscheme hybrid
+        silent! colorscheme hybrid
         hi clear SpellBad
         hi clear SpellCap
         hi SpellBad     gui=underline cterm=underline
