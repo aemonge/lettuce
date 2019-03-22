@@ -49,6 +49,25 @@ To manually install lettuce, simple copy and paste my __.vimrc__ file into your 
 
 Then start vim, ignoring all errors; things should start installing for you and the second time you open vim there should be no errors. The magic happens thanks to the wonderfull plugin manager [vim-plug](https://github.com/junegunn/vim-plug).
 
+### Kill -9 tmux, screen, terminator, multiplexor !
+> I've written a tiny script to make vim act as any multiplexor. Providing you with the same context everywhere, because *it's all text!*
+
+__**~/.bashrc** or **~/.zshrc**__
+```
+# My own version of tmux
+  if [ $VIM_TERMINAL ]; then
+    # First change directory to PWD, then open files. Giving a IDE impression
+    alias vim="vim --servername $VIM_TERMINAL_PARENT_ID --remote-send \"<C-\><C-n>:cd $(pwd)<cr>\" --remote-tab"
+  fi
+  if [ -z $VIM_TERMINAL ]; then
+    export VIM_TERMINAL_PARENT_ID="$$-VMUX";
+    # the exit below is to close the terminal when vmux is done.
+    vim +':terminal ++curwin' --servername $VIM_TERMINAL_PARENT_ID && exit
+  fi
+```
+
+Test it out by opening your terminal, and then going from insert-mode (default landing mode) back to normal-mode with <C-K>, <C-J>. Then call my `:terminal` mapping which is <Leader>x `,x` and there you go! You don't need any other multiplexor
+
 ## Uninstall
 
 To clear your vim from plugins and mapping simple remove the __vim__ dir and my __vimrc__ file.
