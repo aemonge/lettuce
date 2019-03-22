@@ -66,7 +66,7 @@ __**~/.bashrc** or **~/.zshrc**__
   fi
 ```
 
-Test it out by opening your terminal, and then going from insert-mode (default landing mode) back to normal-mode with <C-K>, <C-J>. Then call my `:terminal` mapping which is <Leader>x `,x` and there you go! You don't need any other multiplexor
+Test it out by opening your terminal, and then going from insert-mode (default landing mode) back to normal-mode with `<C-K>`, `<C-J>`. Then call my `:terminal` mapping which is `<Leader>x` aka `,x` and there you go! You don't need any other multiplexor
 
 ## Uninstall
 
