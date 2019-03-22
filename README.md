@@ -7,7 +7,7 @@ I've done a yearly selection of the most useful and fast plugins, keeping vim as
 #### I trust you !
 > If you really really trust me, simply execute this `curl` to install this distribution, and remember to manually install the **pre-requisites**.
 
-`curl -L https://raw.githubusercontent.com/aemonge/lettuce/master/install.sh`
+`curl -L https://raw.githubusercontent.com/aemonge/lettuce/master/install.sh | bash`
 
 ## Pre-requisites
 
