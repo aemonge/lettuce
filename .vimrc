@@ -38,6 +38,8 @@
     set shellslash                                                            " Paths will use / instead of \ endif
   endif
 
+  mapclear                                                                     " Remove old mappings
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                             General
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -165,7 +167,7 @@
     inoremap <expr><C-L> neocomplete#smart_close_popup()."\<CR>"
     inoremap <expr><C-L> pumvisible() ? "\<C-y>" : "\<CR>"
     " Close completion pop-up when deleting character
-    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
     " Enable omni completion.
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -350,10 +352,10 @@
       " Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
       Plug 'flniu/confluencewiki.vim'                                          " Support for confluence wiki (also jira descriptions)
       au BufNewFile,BufReadPost *.wiki set filetype=confluencewiki
-    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint vimlint prettier jsonlint fixjson eslint-plugin-react eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack jsctags stylelint-config-recommended' }              " A version of Syntactic that works a-sync
+    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint vimlint prettier jsonlint fixjson eslint-plugin-react eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack jsctags stylelint-config-recommended typescript-eslint-parser' }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       Plug 'Valloric/ListToggle'
-        map <script> <silent> <leader>e :call ToggleLocationList()<CR>
+        " map <script> <silent> <leader>e :call ToggleLocationList()<CR>
         map <leader>ee :ALEDetail<cr><C-W>w
         let g:lt_location_list_toggle_map = '<leader>e'
       let g:ale_sign_error = '✗'
@@ -361,7 +363,7 @@
       let g:ale_completion_enabled = 1
       " Disabled tsserver in typescript since my machine is TOO slow.
       let g:ale_linters = {
-      \  'typescript': [ 'tslint', 'tsserver' ],
+      \  'typescript': [ 'tslint', 'eslint' ],
       \  'javascript': [ 'eslint' ],
       \  'jsx': [ 'eslint' ],
       \  'json': [ 'jsonlint' ]
@@ -381,6 +383,8 @@
       let g:ale_lint_on_filetype_changed=0
       let g:ale_lint_on_insert_leave=0
       let g:ale_lint_on_text_changed=0
+      let g:ale_echo_msg_format='%severity% (%linter%|%code%): %s'
+      let g:ale_loclist_msg_format='(%linter%|%code%): %s'
     Plug 'ternjs/tern_for_vim', { 'do' : 'npm i' }                             " This is a Vim plugin that provides Tern-based JavaScript editing support.
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
@@ -428,8 +432,9 @@
       nmap <Leader>t :Tabularize /
       vmap <Leader>t :Tabularize /
     function! AutoFormatNFix()
-      :Autoformat
       :ALEFix
+      :Autoformat
+      :ALELint
     endfunction
     Plug 'chiel92/vim-autoformat', { 'do': 'npm install -g js-beautify eslint typescript-formatter' }       " Format all code uses js-beautify for JS
      noremap <leader>= :call AutoFormatNFix()<CR>
@@ -465,7 +470,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                        Terminal
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  function! TerminalThemeIn()
+  function! TerminalOnIn()
     set nonumber
     set norelativenumber
     set nospell
@@ -473,10 +478,12 @@
     set noruler
     set noshowcmd
     set nowrap
+    set nolazyredraw
     :noh
+    :silent! exe "normal A"
   endfunction
 
-  function! TerminalThemeOut()
+  function! NoTerminalInOut()
     set number
     set relativenumber
     set spell
@@ -484,11 +491,18 @@
     set ruler
     set showcmd
     set wrap
+    set lazyredraw
+  endfunction
+
+  function! TerminalOnOut()
+    if tabpagenr('$') == 1 " If this last closed terminal is the last buffer, close all.
+      :silent! qa
+    endif
   endfunction
 
   function! NewTermTab()
     :tabnew<cr>
-    :terminal ++curwin
+    :terminal ++curwin ++close
   endfunction
 
   function! TerminalMapping()
@@ -507,19 +521,16 @@
     " Refresh and clear command to terminal
     tnoremap <C-l><C-l> clear<cr>
     tnoremap <C-l><C-l><C-l> reset<cr>
-  endfunction
 
-  function! TerminalIfLastExit()
-    if tabpagenr('$') == 1 " We are (currently) not in the last tab
-      :qa
-    endif
+    " In terminal open a file will open in new tab instad of term buffer
+    tmap gf <C-w>gf
+    tmap gF <C-w>gF
   endfunction
 
   function! TerminalPlusPlus()
-    au TerminalOpen * if &buftype == 'terminal' | call TerminalThemeIn() | endif
-    autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | silent! normal i | endif
-    au BufEnter * if &buftype != 'terminal' | call TerminalThemeOut() | endif
-    au BufLeave * if &buftype == 'terminal' | call TerminalIfLastExit() | endif
+    au BufLeave * if &buftype == 'terminal' | call TerminalOnOut() | endif
+    au BufEnter * if &buftype == 'terminal' | call TerminalOnIn() | endif
+    au BufEnter * if &buftype != 'terminal' | call NoTerminalInOut() | endif
     call TerminalMapping()
   endfunction
   exec TerminalPlusPlus()
