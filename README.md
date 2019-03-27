@@ -31,12 +31,12 @@ It also uses the NPM package manager for node, to have a live syntactical linter
 
 #### Mac OS Caveats
 
-Compilation of Vim8.1 with the `+clientserver` requires *XQuartz*, for a more details in why is this required please [read this post](http://www.markcampbell.me/2016/04/12/setting-up-yank-to-clipboard-on-a-mac-with-vim.html).
+Compilation of Vim8.1 with the `+clientserver` requires *macvim*, for a more details in why is this required please [read this post](https://github.com/macvim-dev/macvim/issues/657#issuecomment-477094667).
 
 _**tl;dr**_
 
-* `brew install xquartz`
-* `brew install vim --with-client-server`
+* `brew uninstall vim`
+* `brew install macvim`  # [homebrew-macvim formula](https://github.com/macvim-dev/homebrew-macvim)
 
 
 ## Installation
