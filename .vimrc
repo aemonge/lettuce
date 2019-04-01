@@ -128,7 +128,7 @@
       " imap <C-v> <Esc>:set paste<cr>:r !pbpaste<cr>:set nopaste<cr>
       " Linux support
       imap <C-v> <C-o>"+p
-      set clipboard=unnamed
+      set clipboard+=unnamed
     vmap <C-p> "+p<cr>
     vmap <C-C> "+y
     vmap  "+y
@@ -143,7 +143,7 @@
     " Line Completion
     imap <C-l> <c-x><C-l>
     " Omni Completion
-    imap <C-k> <c-x><c-o>
+    " imap <C-k> <c-x><c-o>
     "Spelling Completion
       imap <C-h> <c-x>s
       if has('win32')
@@ -163,9 +163,9 @@
       " <TAB>: completion. and closing with C-K and C-L
     inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
     " Start the completion with C-K accept it with C-L
-    inoremap <expr><C-K> neocomplete#start_manual_complete()
-    inoremap <expr><C-L> neocomplete#smart_close_popup()."\<CR>"
-    inoremap <expr><C-L> pumvisible() ? "\<C-y>" : "\<CR>"
+    inoremap <expr><C-n> neocomplete#start_manual_complete()
+    inoremap <expr><C-k> neocomplete#smart_close_popup()."\<CR>"
+    inoremap <expr><C-k> pumvisible() ? "\<C-y>" : "\<CR>"
     " Close completion pop-up when deleting character
     " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
@@ -466,6 +466,19 @@
       if executable('ag')
         let g:ackprg = 'ag --vimgrep'
       endif
+    Plug 'jungomi/vim-mdnquery', { 'do': 'gem install mdn_query' }             " Query the Mozilla Developer Network documentation without leaving Vim.
+      autocmd FileType html setlocal keywordprg=:MdnQueryFirstMatch
+      " Search in JS and CSS topics
+      let g:mdnquery_topics = ['js', 'css', 'html']
+      " Automatically set the topics for HTML files
+      autocmd FileType html let b:mdnquery_topics = ['css', 'html']
+      autocmd FileType javascript let b:mdnquery_topics = ['js']
+      autocmd FileType typescript let b:mdnquery_topics = ['js']
+      " Buffer Appereance
+      let g:mdnquery_show_on_invoke = 1
+      let g:mdnquery_auto_focus = 1
+      let g:mdnquery_size = 10
+      " autocmd User MdnQueryContentChange call mdnquery#focus()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                        Terminal
@@ -479,8 +492,12 @@
     set noshowcmd
     set nowrap
     set nolazyredraw
+    set nofoldenable
+    " In terminal open a file will open in new tab instad of term buffer
+    noremap gf <C-w>gf
+    noremap gF <C-w>gF
     :noh
-    :silent! exe "normal A"
+    :silent! exe "normal A<cr>"
   endfunction
 
   function! NoTerminalInOut()
@@ -492,6 +509,11 @@
     set showcmd
     set wrap
     set lazyredraw
+    set foldenable
+
+    " In terminal open a file will open in new tab instad of term buffer
+    silent! unmap gf
+    silent! unmap gF
   endfunction
 
   function! TerminalOnOut()
@@ -521,10 +543,6 @@
     " Refresh and clear command to terminal
     tnoremap <C-l><C-l> clear<cr>
     tnoremap <C-l><C-l><C-l> reset<cr>
-
-    " In terminal open a file will open in new tab instad of term buffer
-    tmap gf <C-w>gf
-    tmap gF <C-w>gF
   endfunction
 
   function! TerminalPlusPlus()
