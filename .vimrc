@@ -157,7 +157,7 @@
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
     let g:neocomplete#sources#syntax#min_keyword_length = 4
-    let g:neocomplete#enable_auto_select = 1
+    let g:neocomplete#enable_auto_select = 0
     let g:neocomplete#auto_complete_delay = 30
     let g:neocomplete#enable_fuzzy_completion = 1
       " <TAB>: completion. and closing with C-K and C-L
@@ -483,48 +483,29 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                        Terminal
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  function! TerminalOnIn()
-    set nonumber
-    set norelativenumber
-    set nospell
-    set noshowmode
-    set noruler
-    set noshowcmd
-    set nowrap
-    set nolazyredraw
-    set nofoldenable
-    " In terminal open a file will open in new tab instad of term buffer
-    noremap gf <C-w>gf
-    noremap gF <C-w>gF
-    :noh
-    :silent! exe "normal A<cr>"
-  endfunction
+  function! TerminalOptions()
+    setlocal nonumber
+    setlocal norelativenumber
+    setlocal nospell
+    setlocal noshowmode
+    setlocal noruler
+    setlocal noshowcmd
+    setlocal nowrap
+    setlocal nolazyredraw
+    setlocal nofoldenable
+    setlocal nohlsearch
 
-  function! NoTerminalInOut()
-    set number
-    set relativenumber
-    set spell
-    set showmode
-    set ruler
-    set showcmd
-    set wrap
-    set lazyredraw
-    set foldenable
+    " Map to open files, but if in terminal open them in new tab
+    noremap <nowait> <buffer> gf <c-w>gf
+    noremap <nowait> <buffer> gF <c-w>gF
 
-    " In terminal open a file will open in new tab instad of term buffer
-    silent! unmap gf
-    silent! unmap gF
+    silent au BufLeave <buffer> if tabpagenr('$') == 1 | qall | endif
   endfunction
-
-  function! TerminalOnOut()
-    if tabpagenr('$') == 1 " If this last closed terminal is the last buffer, close all.
-      :silent! qa
-    endif
-  endfunction
+  au TerminalOpen * call TerminalOptions()
 
   function! NewTermTab()
     :tabnew<cr>
-    :terminal ++curwin ++close
+    :terminal ++curwin
   endfunction
 
   function! TerminalMapping()
@@ -544,14 +525,16 @@
     tnoremap <C-l><C-l> clear<cr>
     tnoremap <C-l><C-l><C-l> reset<cr>
   endfunction
+  call TerminalMapping()
 
-  function! TerminalPlusPlus()
-    au BufLeave * if &buftype == 'terminal' | call TerminalOnOut() | endif
-    au BufEnter * if &buftype == 'terminal' | call TerminalOnIn() | endif
-    au BufEnter * if &buftype != 'terminal' | call NoTerminalInOut() | endif
-    call TerminalMapping()
+  " when only the term tab remains, clear all. To give the impression of closing vim.
+  function! TablOnlyBufOnly()
+    if  tabpagenr('$') == 1
+      BOnly
+    endif
   endfunction
-  exec TerminalPlusPlus()
+  au TabClosed * call TablOnlyBufOnly()
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                     Local Plugs
@@ -578,26 +561,6 @@
     endif
   endfunction
   nmap <leader>v :call DebugVar()<cr>
-
-  " Move Left After Tab Close
-  function! MoveToTabOnLeft()
-    let current = tabpagenr()
-    let last = tabpagenr('$')
-    if current != last " We are (currently) not in the last tab
-      let tabonleft = current - 1
-      exe tabonleft."tabnext"
-    endif
-  endfunction
-  function! IfTabOnlyThenBufOnly()
-    if tabpagenr('$') == 1 " We are (currently) not in the last tab
-      BOnly
-    endif
-  endfunction
-  augroup tabonleft
-      au!
-      au TabClosed * call MoveToTabOnLeft()
-      au TabClosed * call IfTabOnlyThenBufOnly()
-  augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Finizalization
