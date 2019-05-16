@@ -230,16 +230,16 @@
         hi clear SpellCap
         hi SpellBad     gui=underline cterm=underline
         hi SpellCap     gui=underline cterm=underline
-        hi NonText      ctermbg=none
-        hi Terminal     ctermbg=none
-        hi Normal       ctermbg=none
-        hi Folded       ctermbg=none
-        hi CursorLine   ctermbg=none
         hi CursorLine   gui=bold      cterm=bold
-        hi CursorColumn ctermbg=none
         hi CursorColumn gui=bold      cterm=bold
-        hi SignColumn   ctermbg=none
         hi SignColumn   gui=bold      cterm=bold
+        " hi NonText      ctermbg=none
+        " hi Terminal     ctermbg=none
+        " hi Normal       ctermbg=none
+        " hi Folded       ctermbg=none
+        " hi CursorLine   ctermbg=none
+        " hi CursorColumn ctermbg=none
+        " hi SignColumn   ctermbg=none
       endfunction
 
     if !exists("g:hybrid_use_Xresources")
@@ -319,6 +319,7 @@
     xnoremap p pgvy
 
   " Plugs
+    Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
     Plug 'chrisbra/sudoedit.vim'                                               " Enable sudo CRUD operations with none sudo vim instance
     Plug 'tpope/vim-repeat'                                                    " Repeat
     Plug 'Raimondi/delimitMate'                                                " Closing of quotes
@@ -402,8 +403,8 @@
     map <C-k> :wincmd W<cr>
 
   " quick tab move [ tab, and shift tab ]
-    nmap <C-l> gt<cr>
-    nmap <C-h> gT<cr>
+    nmap <C-l> gt
+    nmap <C-h> gT
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                   Internal Efficiency
@@ -436,7 +437,7 @@
       :Autoformat
       :ALELint
     endfunction
-    Plug 'chiel92/vim-autoformat', { 'do': 'npm install -g js-beautify eslint typescript-formatter' }       " Format all code uses js-beautify for JS
+    Plug 'chiel92/vim-autoformat', { 'do': '!npm install -g js-beautify eslint typescript-formatter' }       " Format all code uses js-beautify for JS
      noremap <leader>= :call AutoFormatNFix()<CR>
 
 
@@ -483,6 +484,22 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                        Terminal
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  function! TermAuEnter()
+    if tabpagenr('$') == 1 
+      " when only the term tab remains, clear all. To give the impression of closing vim.
+      BufOnly!
+    endif
+
+    " On entering the terminal, go directly to insert mode.
+    normal i
+  endfunction
+
+  function! CloseTermQuitAll() 
+    if tabpagenr('$') == 1 
+      silent! qall!
+    endif
+  endfunction
+
   function! TerminalOptions()
     setlocal nonumber
     setlocal norelativenumber
@@ -499,7 +516,8 @@
     noremap <nowait> <buffer> gf <c-w>gf
     noremap <nowait> <buffer> gF <c-w>gF
 
-    silent au BufLeave <buffer> if tabpagenr('$') == 1 | qall | endif
+    au BufEnter <buffer> call TermAuEnter()
+    au BufLeave <buffer> call CloseTermQuitAll()
   endfunction
   au TerminalOpen * call TerminalOptions()
 
@@ -522,18 +540,10 @@
     nmap <leader>x :terminal<cr>
 
     " Refresh and clear command to terminal
-    tnoremap <C-l><C-l> clear<cr>
-    tnoremap <C-l><C-l><C-l> reset<cr>
+    tnoremap <C-l><C-l> clear<cr><C-\><C-N>:redraw<cr>A
+    tnoremap <C-l><C-l><C-l> reset<cr><C-\><C-N>:redraw<cr>A
   endfunction
   call TerminalMapping()
-
-  " when only the term tab remains, clear all. To give the impression of closing vim.
-  function! TablOnlyBufOnly()
-    if  tabpagenr('$') == 1
-      BOnly
-    endif
-  endfunction
-  au TabClosed * call TablOnlyBufOnly()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
@@ -637,7 +647,6 @@
   " Plug 'roxma/vim-hug-neovim-rpc'
   " Plug 'scrooloose/nerdtree'                                                 " NERD tree
   " Plug 'shougo/deol.nvim'                                                    " A powerful shell implementation by vim (for windows)
-  " Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
   " Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
   " Plug 'tmhedberg/matchit'                                                   " Match it
   " Plug 'vim-scripts/ReplaceWithRegister'
