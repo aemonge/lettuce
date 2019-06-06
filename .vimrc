@@ -71,7 +71,7 @@
     set undolevels=10000                                                       " maximum number of changes that can be undone
     set undoreload=10000                                                       " maximum number lines to save for undo on a buffer reload
     set mousehide                                                              " hide while typing
-    " set mouse=a                                                                " Mouse can click over buffers, but just that.
+    set mouse=a                                                                " Mouse can click over buffers, but just that.
     set exrc                                                                   " Execute .vimrc file under current folders ;)
     set secure                                                                 " Just run .vimrc file that the owner is `whoami`
     if has('unix')
@@ -233,13 +233,13 @@
         hi CursorLine   gui=bold      cterm=bold
         hi CursorColumn gui=bold      cterm=bold
         hi SignColumn   gui=bold      cterm=bold
-        " hi NonText      ctermbg=none
-        " hi Terminal     ctermbg=none
-        " hi Normal       ctermbg=none
-        " hi Folded       ctermbg=none
-        " hi CursorLine   ctermbg=none
-        " hi CursorColumn ctermbg=none
-        " hi SignColumn   ctermbg=none
+        hi NonText      ctermbg=none
+        hi Terminal     ctermbg=none
+        hi Normal       ctermbg=none
+        hi Folded       ctermbg=none
+        hi CursorLine   ctermbg=none
+        hi CursorColumn ctermbg=none
+        hi SignColumn   ctermbg=none
       endfunction
 
     if !exists("g:hybrid_use_Xresources")
@@ -307,6 +307,7 @@
     Plug 'mtth/scratch.vim'                                                    " A simple Scratch window for tooling
       nmap <leader>st :Scratch<cr>
     Plug 'tpope/vim-fugitive'                                                  " Git wrapper
+    Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Expected Enhancements
@@ -353,7 +354,7 @@
       " Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
       Plug 'flniu/confluencewiki.vim'                                          " Support for confluence wiki (also jira descriptions)
       au BufNewFile,BufReadPost *.wiki set filetype=confluencewiki
-    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint eslint vimlint prettier jsonlint fixjson eslint-plugin-react eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack jsctags stylelint-config-recommended typescript-eslint-parser' }              " A version of Syntactic that works a-sync
+    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint typescript typescript@ webpack typescript-estree stylelint eslint  prettier jsonlint fixjson eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack stylelint-config-recommended typescript-eslint-parser' }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       Plug 'Valloric/ListToggle'
         " map <script> <silent> <leader>e :call ToggleLocationList()<CR>
@@ -485,17 +486,17 @@
 "                        Terminal
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   function! TermAuEnter()
-    if tabpagenr('$') == 1 
+    if tabpagenr('$') == 1
       " when only the term tab remains, clear all. To give the impression of closing vim.
-      BufOnly!
+      silent! BufOnly!
     endif
 
     " On entering the terminal, go directly to insert mode.
-    normal i
+    silent! normal i
   endfunction
 
-  function! CloseTermQuitAll() 
-    if tabpagenr('$') == 1 
+  function! CloseTermQuitAll()
+    if tabpagenr('$') == 1
       silent! qall!
     endif
   endfunction
@@ -647,7 +648,6 @@
   " Plug 'roxma/vim-hug-neovim-rpc'
   " Plug 'scrooloose/nerdtree'                                                 " NERD tree
   " Plug 'shougo/deol.nvim'                                                    " A powerful shell implementation by vim (for windows)
-  " Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
   " Plug 'tmhedberg/matchit'                                                   " Match it
   " Plug 'vim-scripts/ReplaceWithRegister'
   " Plug 'vim-scripts/TwitVim'
