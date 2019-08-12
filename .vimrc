@@ -277,8 +277,6 @@
       let airline#extensions#ale#error_symbol = '✗'
       let airline#extensions#ale#warning_symbol = '∆'
 
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                             IDE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -308,12 +306,16 @@
       nmap <leader>st :Scratch<cr>
     Plug 'tpope/vim-fugitive'                                                  " Git wrapper
     Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
+      nnoremap <leader>u :MundoToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Expected Enhancements
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Settings
     set laststatus=2                                                           " Enables the status line at the bottom of Vim Only when SPLIT
+    if has("patch-8.1.0360")
+      set diffopt+=internal,algorithm:patience                                 " Vim will use the patience diff algorithm when creating a diff.
+    endif
 
   " Mappings
     " When pasting don't replace the current register.
@@ -326,7 +328,8 @@
     Plug 'Raimondi/delimitMate'                                                " Closing of quotes
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
     " Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
-
+    Plug 'tmhedberg/matchit'                                                   " Match it: extended % matching for HTML, LaTeX, and many other languages
+    Plug 'vim-scripts/PreserveNoEOL' " This plugin causes Vim to omit the final newline (<EOL>) at the end of a text file when you save it, if it was missing when the file was read.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                           Motions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -441,6 +444,25 @@
     Plug 'chiel92/vim-autoformat', { 'do': '!npm install -g js-beautify eslint typescript-formatter' }       " Format all code uses js-beautify for JS
      noremap <leader>= :call AutoFormatNFix()<CR>
 
+    " A vim plugin wrapper for prettier, pre-configured with custom default prettier settings.
+    Plug 'prettier/vim-prettier', {
+      \ 'do': 'yarn install',
+      \ 'branch': 'release/1.x',
+      \ 'for': [
+        \ 'javascript',
+        \ 'typescript',
+        \ 'css',
+        \ 'scss',
+        \ 'json',
+        \ 'markdown',
+        \ 'vue',
+        \ 'html'
+        \]
+    \}
+    nmap <Leader>== <Plug>(Prettier)
+    let g:prettier#config#print_width = 120
+    let g:prettier#config#single_quote = 'true'
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                        Search
@@ -497,7 +519,7 @@
 
   function! CloseTermQuitAll()
     if tabpagenr('$') == 1
-      silent! qall!
+      au! BufEnter * if bufname(0) == '' | silent! q | endif
     endif
   endfunction
 
@@ -511,20 +533,24 @@
     setlocal nowrap
     setlocal nolazyredraw
     setlocal nofoldenable
-    setlocal nohlsearch
+    " setlocal nohlsearch
 
     " Map to open files, but if in terminal open them in new tab
-    noremap <nowait> <buffer> gf <c-w>gf
-    noremap <nowait> <buffer> gF <c-w>gF
+    noremap <buffer> gf <c-w>gf
+    noremap <buffer> gF <c-w>gF
 
     au BufEnter <buffer> call TermAuEnter()
-    au BufLeave <buffer> call CloseTermQuitAll()
+    " au BufLeave <buffer> call CloseTermQuitAll()
+    " au BufDelete <buffer> call CloseTermQuitAll()
+    " au BufWipeout <buffer> call CloseTermQuitAll()
+    au BufUnload <buffer> call CloseTermQuitAll()
+    " au BufHidden <buffer> call CloseTermQuitAll()
   endfunction
   au TerminalOpen * call TerminalOptions()
 
   function! NewTermTab()
     :tabnew<cr>
-    :terminal ++curwin
+    :terminal ++curwin ++close
   endfunction
 
   function! TerminalMapping()
@@ -580,6 +606,7 @@
       au VimEnter * call AddCycleGroup(['set', 'get'])
       au VimEnter * call AddCycleGroup(['form', 'to'])
       au VimEnter * call AddCycleGroup(['push', 'pop'])
+      au VimEnter * call AddCycleGroup(['more', 'less'])
       au VimEnter * call AddCycleGroup(['mas', 'menos'])
       au VimEnter * call AddCycleGroup(['prev', 'next'])
       au VimEnter * call AddCycleGroup(['start', 'end'])
@@ -648,7 +675,6 @@
   " Plug 'roxma/vim-hug-neovim-rpc'
   " Plug 'scrooloose/nerdtree'                                                 " NERD tree
   " Plug 'shougo/deol.nvim'                                                    " A powerful shell implementation by vim (for windows)
-  " Plug 'tmhedberg/matchit'                                                   " Match it
   " Plug 'vim-scripts/ReplaceWithRegister'
   " Plug 'vim-scripts/TwitVim'
   " Plug 'vim-scripts/colorsupport.vim'
