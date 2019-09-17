@@ -37,6 +37,8 @@
     set shellxquote=\"                                                        " Default value is (, but bash needs "
     set shellslash                                                            " Paths will use / instead of \ endif
   endif
+  set path+=~/;./node_modules/;~/.nodenv/shims/
+  set suffixesadd+=.js;.ts
 
   mapclear                                                                     " Remove old mappings
 
@@ -86,9 +88,11 @@
       endif
     endif
 
-  " Extra Mappings
-    map <leader>tw :set wrap!<cr>
-    set breakindent                                                            " Every wrapped line will continue visually indented
+  " Clipboard. Mac Osx Support
+    " imap <C-v> <Esc>:set paste<cr>:r !pbpaste<cr>:set nopaste<cr>
+  " Clipboard. Linux support
+    imap <C-v> <C-o>"+p
+    set clipboard=unnamedplus
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "           Smart Mappings (aka vim tune, with no Plugs)
@@ -103,7 +107,6 @@
     nnoremap & :&&<CR>
     xnoremap & :&&<CR>
 
-
   " Strip all trailing white-space in the current file
     au BufWritePre * %s/\s\+$//e
 
@@ -115,26 +118,25 @@
 
   " Select entire buffer
     nnoremap vaa ggvGg_
-
-  " Misc
-    " save file when accidentally trying to save in insert mode
-    imap :w <Esc>:w
-    " Double ;; inserts a single ; at the end
-    imap ;; <C-o>A;<Esc>
-    " Don't search for words on selection mode
-    vmap K k
-    " Copying pasting
-      " Mac Osx Support
-      " imap <C-v> <Esc>:set paste<cr>:r !pbpaste<cr>:set nopaste<cr>
-      " Linux support
-      imap <C-v> <C-o>"+p
-      set clipboard+=unnamed
+    "
+  " Clipboard
     vmap <C-p> "+p<cr>
     vmap <C-C> "+y
     vmap  "+y
-    " a bit faster to get the q: and my own f:
+
+  " save file when accidentally trying to save in insert mode
+    imap :w <Esc>:w
+  " Double ;; inserts a single ; at the end
+    imap ;; <C-o>A;<Esc>
+  " Don't search for words on selection mode
+    vmap K k
+  " a bit faster to get the q: and my own f:
     nmap q; q:
     nmap f; f:
+
+  " Extra Mappings
+    map <leader>tw :set wrap!<cr>
+    set breakindent                                                            " Every wrapped line will continue visually indented
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                          Completions
@@ -307,6 +309,7 @@
     Plug 'tpope/vim-fugitive'                                                  " Git wrapper
     Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
       nnoremap <leader>u :MundoToggle<CR>
+    Plug 'vim-scripts/netrw.vim'                                               " Netrw supports reading and writing files across networks.
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Expected Enhancements
@@ -357,7 +360,7 @@
       " Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
       Plug 'flniu/confluencewiki.vim'                                          " Support for confluence wiki (also jira descriptions)
       au BufNewFile,BufReadPost *.wiki set filetype=confluencewiki
-    Plug 'w0rp/ale', { 'do': 'npm i -g ts-server tslint typescript typescript@ webpack typescript-estree stylelint eslint  prettier jsonlint fixjson eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack stylelint-config-recommended typescript-eslint-parser' }              " A version of Syntactic that works a-sync
+    Plug 'w0rp/ale', { 'do': 'npm i -g eslint @typescript-eslint/parser typescript-eslint @typescript-eslint/eslint-plugin @typescript-eslint/eslint-plug in-tslintdtslint resolve ts-server tslint typescript webpack @typescript-eslint/typescript-estree stylelint eslint prettier tslint-config-prettier jsonlint fixjson eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack stylelint-config-recommended @typescript-eslint/parser' }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       Plug 'Valloric/ListToggle'
         " map <script> <silent> <leader>e :call ToggleLocationList()<CR>
@@ -370,6 +373,9 @@
       let g:ale_linters = {
       \  'typescript': [ 'tslint', 'eslint' ],
       \  'javascript': [ 'eslint' ],
+      \  'sass': [ 'stylelint' ],
+      \  'scss': [ 'stylelint' ],
+      \  'css': [ 'stylelint' ],
       \  'jsx': [ 'eslint' ],
       \  'json': [ 'jsonlint' ]
       \}
@@ -378,6 +384,8 @@
       \  'javascript': [ 'eslint', 'prettier' ],
       \  'jsx': [ 'eslint', 'prettier'  ],
       \  'json': ['fixjson'],
+      \  'sass': [ 'prettier' ],
+      \  'scss': [ 'prettier' ],
       \  'css': ['prettier'],
       \  'markdown': ['prettier'],
       \  '*': ['prettier']
@@ -441,7 +449,7 @@
       :Autoformat
       :ALELint
     endfunction
-    Plug 'chiel92/vim-autoformat', { 'do': '!npm install -g js-beautify eslint typescript-formatter' }       " Format all code uses js-beautify for JS
+    Plug 'chiel92/vim-autoformat', { 'do': 'npm install -g js-beautify eslint typescript-formatter' }       " Format all code uses js-beautify for JS
      noremap <leader>= :call AutoFormatNFix()<CR>
 
     " A vim plugin wrapper for prettier, pre-configured with custom default prettier settings.
@@ -515,12 +523,19 @@
 
     " On entering the terminal, go directly to insert mode.
     silent! normal i
+
+    " Then make sure the go to file map open in new tab
+    " vnoremap gf <c-w>gf
+    " vnoremap gF <c-w>gF
   endfunction
 
   function! CloseTermQuitAll()
     if tabpagenr('$') == 1
       au! BufEnter * if bufname(0) == '' | silent! q | endif
     endif
+
+    " vunmap gF
+    " vunmap gf
   endfunction
 
   function! TerminalOptions()
@@ -533,18 +548,14 @@
     setlocal nowrap
     setlocal nolazyredraw
     setlocal nofoldenable
+    setlocal nolist                                                   " list disables linebreak
+    " set isfname+=32                                                   " Make spaces a valid file names
     " setlocal nohlsearch
 
-    " Map to open files, but if in terminal open them in new tab
-    noremap <buffer> gf <c-w>gf
-    noremap <buffer> gF <c-w>gF
-
     au BufEnter <buffer> call TermAuEnter()
-    " au BufLeave <buffer> call CloseTermQuitAll()
-    " au BufDelete <buffer> call CloseTermQuitAll()
-    " au BufWipeout <buffer> call CloseTermQuitAll()
     au BufUnload <buffer> call CloseTermQuitAll()
-    " au BufHidden <buffer> call CloseTermQuitAll()
+    map <buffer> <nowait> gF :tabe <cfile><CR>
+    map <buffer> <nowait> gf :tabe <cfile><CR>
   endfunction
   au TerminalOpen * call TerminalOptions()
 
@@ -569,6 +580,12 @@
     " Refresh and clear command to terminal
     tnoremap <C-l><C-l> clear<cr><C-\><C-N>:redraw<cr>A
     tnoremap <C-l><C-l><C-l> reset<cr><C-\><C-N>:redraw<cr>A
+
+    " Map to open files, but if in terminal open them in new tab
+    " tmap gf <c-w>gf
+    " tmap gF <c-w>gF
+    " tmap gf :tabe <cfile><CR>
+    " tmap gF :tabe <cfile><CR>
   endfunction
   call TerminalMapping()
 
@@ -616,6 +633,7 @@
       au VimEnter * call AddCycleGroup(['truthy', 'falsy'])
       au VimEnter * call AddCycleGroup(['filter', 'reject'])
       au VimEnter * call AddCycleGroup(['disable', 'enable'])
+      au VimEnter * call AddCycleGroup(['const', 'let', 'var'])
       au VimEnter * call AddCycleGroup(['disabled', 'enabled'])
       au VimEnter * call AddCycleGroup(['internal', 'external'])
       au VimEnter * call AddCycleGroup(['short', 'normal', 'long'])
