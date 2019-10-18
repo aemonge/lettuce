@@ -158,7 +158,7 @@
     Plug 'Shougo/neocomplete.vim'                                            " Full time complete (alternative for YCM)
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#sources#syntax#min_keyword_length = 4
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
     let g:neocomplete#enable_auto_select = 0
     let g:neocomplete#auto_complete_delay = 30
     let g:neocomplete#enable_fuzzy_completion = 1
@@ -168,8 +168,22 @@
     inoremap <expr><C-n> neocomplete#start_manual_complete()
     inoremap <expr><C-k> neocomplete#smart_close_popup()."\<CR>"
     inoremap <expr><C-k> pumvisible() ? "\<C-y>" : "\<CR>"
+    inoremap <expr><C-g>     neocomplete#undo_completion()
+    inoremap <expr><C-l>     neocomplete#complete_common_string()
     " Close completion pop-up when deleting character
     " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+      Plug 'roxma/nvim-yarp'
+      Plug 'roxma/vim-hug-neovim-rpc'
+      if !has('nvim') " Vim 8 only
+        " pythonx import pynvim
+      endif
+      Plug 'Shougo/neosnippet.vim'
+      Plug 'Shougo/neosnippet-snippets'
+      Plug 'Shougo/deoplete.nvim'
+        let g:deoplete#enable_at_startup = 1
+        imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+        smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+        xmap <C-k>     <Plug>(neosnippet_expand_target)
 
     " Enable omni completion.
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -299,6 +313,7 @@
         \ 'file': '\v\.(exe|so|dll)$',
         \ }
       nmap <C-b> :CtrlPBuffer<cr>
+      tnoremap <C-p> <C-\><C-n>:CtrlP<cr>
     Plug 'tpope/vim-commentary'                                                " Comment stuff out
       noremap <leader>/ :Commentary<cr>
     Plug 'tpope/vim-surround'                                                  " Surround
@@ -332,7 +347,14 @@
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
     " Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
     Plug 'tmhedberg/matchit'                                                   " Match it: extended % matching for HTML, LaTeX, and many other languages
-    Plug 'vim-scripts/PreserveNoEOL' " This plugin causes Vim to omit the final newline (<EOL>) at the end of a text file when you save it, if it was missing when the file was read.
+    Plug 'vim-scripts/PreserveNoEOL'                                           " This plugin causes Vim to omit the final newline (<EOL>) at the end of a text file when you save it, if it was missing when the file was read.
+
+    Plug 'svermeulen/vim-cutlass'                                              " Plugin that adds a 'cut' operation separate from 'delete'
+      nnoremap x dl
+      xnoremap x dl
+      nnoremap xx dd
+      nnoremap X D
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                           Motions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -360,7 +382,7 @@
       " Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
       Plug 'flniu/confluencewiki.vim'                                          " Support for confluence wiki (also jira descriptions)
       au BufNewFile,BufReadPost *.wiki set filetype=confluencewiki
-    Plug 'w0rp/ale', { 'do': 'npm i -g eslint @typescript-eslint/parser typescript-eslint @typescript-eslint/eslint-plugin @typescript-eslint/eslint-plug in-tslintdtslint resolve ts-server tslint typescript webpack @typescript-eslint/typescript-estree stylelint eslint prettier tslint-config-prettier jsonlint fixjson eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack stylelint-config-recommended @typescript-eslint/parser' }              " A version of Syntactic that works a-sync
+    Plug 'w0rp/ale', { 'do': 'npm i -g eslint @typescript-eslint/parser typescript-eslint @typescript-eslint/eslint-plugin @typescript-eslint/eslint-plug in-tslintdtslint resolve ts-server tslint typescript webpack @typescript-eslint/typescript-estree stylelint eslint prettier tslint-config-prettier tidy htmllint jsonlint fixjson eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack stylelint-config-recommended @typescript-eslint/parser' }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       Plug 'Valloric/ListToggle'
         " map <script> <silent> <leader>e :call ToggleLocationList()<CR>
@@ -377,7 +399,8 @@
       \  'scss': [ 'stylelint' ],
       \  'css': [ 'stylelint' ],
       \  'jsx': [ 'eslint' ],
-      \  'json': [ 'jsonlint' ]
+      \  'json': [ 'jsonlint' ],
+      \  'html': ['htmlhint', 'stylelint', 'tidy', 'write-good']
       \}
       let g:ale_fixers = {
       \  'typescript': [ 'tslint', 'prettier' ],
@@ -388,6 +411,7 @@
       \  'scss': [ 'prettier' ],
       \  'css': ['prettier'],
       \  'markdown': ['prettier'],
+      \  'html': ['prettier'],
       \  '*': ['prettier']
       \}
       let g:ale_fix_on_save = 0
@@ -580,12 +604,6 @@
     " Refresh and clear command to terminal
     tnoremap <C-l><C-l> clear<cr><C-\><C-N>:redraw<cr>A
     tnoremap <C-l><C-l><C-l> reset<cr><C-\><C-N>:redraw<cr>A
-
-    " Map to open files, but if in terminal open them in new tab
-    " tmap gf <c-w>gf
-    " tmap gF <c-w>gF
-    " tmap gf :tabe <cfile><CR>
-    " tmap gF :tabe <cfile><CR>
   endfunction
   call TerminalMapping()
 

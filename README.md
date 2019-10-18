@@ -27,6 +27,8 @@ It also uses the NPM package manager for node, to have a live syntactical linter
 * `pacman -S git`. If you're in github, you probably have git installed ;)
 * `pacman -S ctags`. [ctags](https://github.com/universal-ctags/ctags)
 * `pacman -S the_silver_searcher`. [the_silver_searcher](https://github.com/ggreer/the_silver_searcher)
+* `pacman -S pyenv python-greenlet python-locallib`
+* `pip install --user --no-binary :all: pynvim`
 
 
 #### Mac OS Caveats
