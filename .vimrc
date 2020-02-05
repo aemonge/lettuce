@@ -349,11 +349,12 @@
     Plug 'tmhedberg/matchit'                                                   " Match it: extended % matching for HTML, LaTeX, and many other languages
     Plug 'vim-scripts/PreserveNoEOL'                                           " This plugin causes Vim to omit the final newline (<EOL>) at the end of a text file when you save it, if it was missing when the file was read.
 
-    Plug 'svermeulen/vim-cutlass'                                              " Plugin that adds a 'cut' operation separate from 'delete'
-      nnoremap x dl
-      xnoremap x dl
-      nnoremap xx dd
-      nnoremap X D
+    " Plug 'svermeulen/vim-cutlass'                                              " Plugin that adds a 'cut' operation separate from 'delete'
+    "  It is not that its low on performance, but it's weird to get used to this functionallity.....
+    "   nnoremap x dl
+    "   xnoremap x dl
+    "   nnoremap xx dd
+    "   nnoremap X D
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                           Motions
@@ -382,7 +383,7 @@
       " Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
       Plug 'flniu/confluencewiki.vim'                                          " Support for confluence wiki (also jira descriptions)
       au BufNewFile,BufReadPost *.wiki set filetype=confluencewiki
-    Plug 'w0rp/ale', { 'do': 'npm i -g eslint @typescript-eslint/parser typescript-eslint @typescript-eslint/eslint-plugin @typescript-eslint/eslint-plug in-tslintdtslint resolve ts-server tslint typescript webpack @typescript-eslint/typescript-estree stylelint eslint prettier tslint-config-prettier tidy htmllint jsonlint fixjson eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack stylelint-config-recommended @typescript-eslint/parser' }              " A version of Syntactic that works a-sync
+    Plug 'w0rp/ale', { 'do': 'npm i -g eslint node-waf  resolve ts-server typescript webpack stylelint eslint prettier htmllint jsonlint fixjson eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack stylelint-config-recommended'  }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       Plug 'Valloric/ListToggle'
         " map <script> <silent> <leader>e :call ToggleLocationList()<CR>
@@ -393,7 +394,7 @@
       let g:ale_completion_enabled = 1
       " Disabled tsserver in typescript since my machine is TOO slow.
       let g:ale_linters = {
-      \  'typescript': [ 'tslint', 'eslint' ],
+      \  'typescript': [ 'eslint' ],
       \  'javascript': [ 'eslint' ],
       \  'sass': [ 'stylelint' ],
       \  'scss': [ 'stylelint' ],
