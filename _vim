@@ -1,0 +1,3 @@
+#!/bin/sh
+printf ']51;["drop", "'`readlink -f $@`'"]' msg
+# printf ']51;["call", ":tabe", "a.json"]' msg

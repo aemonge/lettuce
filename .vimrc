@@ -36,6 +36,8 @@
     set shellredir=>
     set shellxquote=\"                                                        " Default value is (, but bash needs "
     set shellslash                                                            " Paths will use / instead of \ endif
+    set clipboard=unnamed
+    set filetype=dos
   endif
   set path+=~/;./node_modules/;~/.nodenv/shims/
   set suffixesadd+=.js;.ts
@@ -63,7 +65,11 @@
     set cursorline                                                             " Display vertical and horizontal current line
     noremap <C-l><C-l> :syntax sync fromstart<cr>:redraw!<cr>
                                                                                " Since vim looses highlight colors sometimes @NOTE: There's double L
-    set spl=en_us,es spell
+
+    set spl=en_us,es_es spell
+    if has('win32')
+      set spl=en_us spell
+    endif
       map <leader>ts :set spell!<cr>
 
   " Backups
@@ -91,8 +97,8 @@
   " Clipboard. Mac Osx Support
     " imap <C-v> <Esc>:set paste<cr>:r !pbpaste<cr>:set nopaste<cr>
   " Clipboard. Linux support
-    imap <C-v> <C-o>"+p
-    set clipboard=unnamedplus
+    " imap <C-v> <C-o>"+p
+    " set clipboard=unnamedplus
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "           Smart Mappings (aka vim tune, with no Plugs)
@@ -155,42 +161,44 @@
     imap <C-f> <c-x><c-f>
 
   " Plugs
-    Plug 'Shougo/neocomplete.vim'                                            " Full time complete (alternative for YCM)
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-    let g:neocomplete#enable_auto_select = 0
-    let g:neocomplete#auto_complete_delay = 30
-    let g:neocomplete#enable_fuzzy_completion = 1
-      " <TAB>: completion. and closing with C-K and C-L
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    " Start the completion with C-K accept it with C-L
-    inoremap <expr><C-n> neocomplete#start_manual_complete()
-    inoremap <expr><C-k> neocomplete#smart_close_popup()."\<CR>"
-    inoremap <expr><C-k> pumvisible() ? "\<C-y>" : "\<CR>"
-    inoremap <expr><C-g>     neocomplete#undo_completion()
-    inoremap <expr><C-l>     neocomplete#complete_common_string()
-    " Close completion pop-up when deleting character
-    " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-      Plug 'roxma/nvim-yarp'
-      Plug 'roxma/vim-hug-neovim-rpc'
-      if !has('nvim') " Vim 8 only
-        " pythonx import pynvim
-      endif
-      Plug 'Shougo/neosnippet.vim'
-      Plug 'Shougo/neosnippet-snippets'
-      Plug 'Shougo/deoplete.nvim'
-        let g:deoplete#enable_at_startup = 1
-        imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-        smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-        xmap <C-k>     <Plug>(neosnippet_expand_target)
+    Plug 'ajh17/VimCompletesMe'
+      let b:vcm_tab_complete = "omni"
+    " Plug 'Shougo/neocomplete.vim'                                            " Full time complete (alternative for YCM)
+    " let g:neocomplete#enable_at_startup = 1
+    " let g:neocomplete#enable_smart_case = 1
+    " let g:neocomplete#sources#syntax#min_keyword_length = 3
+    " let g:neocomplete#enable_auto_select = 0
+    " let g:neocomplete#auto_complete_delay = 30
+    " let g:neocomplete#enable_fuzzy_completion = 1
+    "   " <TAB>: completion. and closing with C-K and C-L
+    " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " " Start the completion with C-K accept it with C-L
+    " inoremap <expr><C-n> neocomplete#start_manual_complete()
+    " inoremap <expr><C-k> neocomplete#smart_close_popup()."\<CR>"
+    " inoremap <expr><C-k> pumvisible() ? "\<C-y>" : "\<CR>"
+    " inoremap <expr><C-g>     neocomplete#undo_completion()
+    " inoremap <expr><C-l>     neocomplete#complete_common_string()
+    " " Close completion pop-up when deleting character
+    " " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    "   Plug 'roxma/nvim-yarp'
+    "   " Plug 'roxma/vim-hug-neovim-rpc'
+    "   if has('python') " Vim 8 only
+    "     pythonx import pynvim
+    "   endif
+    "   Plug 'Shougo/neosnippet.vim'
+    "   Plug 'Shougo/neosnippet-snippets'
+    "   " Plug 'Shougo/deoplete.nvim'
+    "   "   let g:deoplete#enable_at_startup = 1
+    "   "   imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    "   "   smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    "   "   xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-    " Enable omni completion.
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    " " Enable omni completion.
+    " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                         Fold Related
@@ -266,6 +274,22 @@
     if exists("syntax_on")
       syntax reset
     endif
+
+    " Plug 'itchyny/lightline.vim'                                               " A light and configurable statusline/tabline plugin for Vim
+    " let g:lightline = {
+    "   \ 'colorscheme': 'seoul256',
+    "   \ 'active': {
+    "   \   'left': [ [ 'mode', 'paste' ],
+    "   \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
+    "   \ },
+    "   \   'right': [ [ 'lineinfo' ],
+    "   \              [ 'percent' ],
+    "   \              [ 'filetype', 'clock' ] ],
+    "   \ 'component': {
+    "   \   'clock': '%{strftime("%H:%M")}',
+    "   \   'helloworld': 'Hello, world!'
+    "   \ },
+    "   \ }
 
     Plug 'vim-airline/vim-airline'
       Plug 'vim-airline/vim-airline-themes'
@@ -423,7 +447,7 @@
       let g:ale_lint_on_text_changed=0
       let g:ale_echo_msg_format='%severity% (%linter%|%code%): %s'
       let g:ale_loclist_msg_format='(%linter%|%code%): %s'
-    Plug 'ternjs/tern_for_vim', { 'do' : 'npm i' }                             " This is a Vim plugin that provides Tern-based JavaScript editing support.
+    " Plug 'ternjs/tern_for_vim', { 'do' : 'npm i' }                             " This is a Vim plugin that provides Tern-based JavaScript editing support.
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                   Tab, Splits & Navigation
@@ -470,16 +494,21 @@
       nmap <Leader>t :Tabularize /
       vmap <Leader>t :Tabularize /
     function! AutoFormatNFix()
-      :ALEFix
-      :Autoformat
-      :ALELint
+      if has('python') " Vim 8 only
+        :ALEFix
+        :Autoformat
+        :ALELint
+      endif
+      if !has('python')
+        :PrettierAsync
+      endif
     endfunction
     Plug 'chiel92/vim-autoformat', { 'do': 'npm install -g js-beautify eslint typescript-formatter' }       " Format all code uses js-beautify for JS
      noremap <leader>= :call AutoFormatNFix()<CR>
 
     " A vim plugin wrapper for prettier, pre-configured with custom default prettier settings.
     Plug 'prettier/vim-prettier', {
-      \ 'do': 'yarn install',
+      \ 'do': 'npm i -g yarn; yarn install',
       \ 'branch': 'release/1.x',
       \ 'for': [
         \ 'javascript',
@@ -492,7 +521,6 @@
         \ 'html'
         \]
     \}
-    nmap <Leader>== <Plug>(Prettier)
     let g:prettier#config#print_width = 120
     let g:prettier#config#single_quote = 'true'
 
@@ -523,25 +551,25 @@
       if executable('ag')
         let g:ackprg = 'ag --vimgrep'
       endif
-    Plug 'jungomi/vim-mdnquery', { 'do': 'gem install mdn_query' }             " Query the Mozilla Developer Network documentation without leaving Vim.
-      autocmd FileType html setlocal keywordprg=:MdnQueryFirstMatch
-      " Search in JS and CSS topics
-      let g:mdnquery_topics = ['js', 'css', 'html']
-      " Automatically set the topics for HTML files
-      autocmd FileType html let b:mdnquery_topics = ['css', 'html']
-      autocmd FileType javascript let b:mdnquery_topics = ['js']
-      autocmd FileType typescript let b:mdnquery_topics = ['js']
-      " Buffer Appereance
-      let g:mdnquery_show_on_invoke = 1
-      let g:mdnquery_auto_focus = 1
-      let g:mdnquery_size = 10
-      " autocmd User MdnQueryContentChange call mdnquery#focus()
+    " Plug 'jungomi/vim-mdnquery', { 'do': 'gem install mdn_query' }             " Query the Mozilla Developer Network documentation without leaving Vim.
+    "   autocmd FileType html setlocal keywordprg=:MdnQueryFirstMatch
+    "   " Search in JS and CSS topics
+    "   let g:mdnquery_topics = ['js', 'css', 'html']
+    "   " Automatically set the topics for HTML files
+    "   autocmd FileType html let b:mdnquery_topics = ['css', 'html']
+    "   autocmd FileType javascript let b:mdnquery_topics = ['js']
+    "   autocmd FileType typescript let b:mdnquery_topics = ['js']
+    "   " Buffer Appereance
+    "   let g:mdnquery_show_on_invoke = 1
+    "   let g:mdnquery_auto_focus = 1
+    "   let g:mdnquery_size = 10
+    "   " autocmd User MdnQueryContentChange call mdnquery#focus()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                        Terminal
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   function! TermAuEnter()
-    if tabpagenr('$') == 1
+    if tabpagenr('$') == 1 && bufwinnr('$') == -1
       " when only the term tab remains, clear all. To give the impression of closing vim.
       silent! BufOnly!
     endif
@@ -558,10 +586,11 @@
     if tabpagenr('$') == 1
       au! BufEnter * if bufname(0) == '' | silent! q | endif
     endif
-
-    " vunmap gF
-    " vunmap gf
   endfunction
+
+  " function! Tabe(arglist)
+  "   exe "$tabe ".a:arglist
+  " endfunction
 
   function! TerminalOptions()
     setlocal nonumber
@@ -592,8 +621,8 @@
   function! TerminalMapping()
     " To use `ALT+{h,j,k,l}` to navigate windows from any mode:
     tnoremap <ESC><ESC> <C-\><C-n>
-    tnoremap <C-j> <C-\><C-N><C-w>j
-    tnoremap <C-k> <C-\><C-N><C-w>k
+    tnoremap <C-j> <C-\><C-N><C-w>w
+    tnoremap <C-k> <C-\><C-N><C-w>W
     tnoremap <C-l> <C-\><C-N>gt
     tnoremap <C-h> <C-\><C-N>gT
 
@@ -605,9 +634,12 @@
     " Refresh and clear command to terminal
     tnoremap <C-l><C-l> clear<cr><C-\><C-N>:redraw<cr>A
     tnoremap <C-l><C-l><C-l> reset<cr><C-\><C-N>:redraw<cr>A
+
+    if !has('clientserver')
+      tnoremap <C-x> <C-\><C-N>:call Cd2pwd() <cr>
+    endif
   endfunction
   call TerminalMapping()
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                     Local Plugs
