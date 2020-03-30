@@ -7,6 +7,7 @@ mv ~/.vimrc ~/.vim_old/.
 # Get the VIMRC
 mkdir ~/.vim
 curl -fLo ~/.vimrc https://raw.githubusercontent.com/aemonge/lettuce/master/.vimrc
+curl -fLo ~/.vim/_vim https://raw.githubusercontent.com/aemonge/lettuce/master/_vim
 
 # Get languages
 mkdir ~/.vim/spell
@@ -17,3 +18,6 @@ curl 'http://ftp.vim.org/pub/vim/runtime/spell/en.utf-8.sug' >~/.vim/spell/en.ut
 
 # SPQG -> Start, install plugins, quit and greet
 vim +PlugInstall +':qa' && echo 'Vim lettuce installed'
+
+# Link my vim executor in case you want to use it :)
+ln -s ~/some/path/to/you/libraries/lettuce/_vim ~/.vim/.;

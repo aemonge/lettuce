@@ -8,11 +8,11 @@ I've done a yearly selection of the most useful and fast plugins, keeping vim as
 
 > If you really really trust me, simply execute this `curl` to install this distribution, and remember to manually install the **pre-requisites**.
 
-`curl -L https://raw.githubusercontent.com/aemonge/lettuce/master/install.sh | bash` 
+`curl -L https://raw.githubusercontent.com/aemonge/lettuce/master/install.sh | bash`
 
 ## Pre-requisites
 
-The distribution is designed to work with Vim >= 8.1, taking advantage of the multi-thread plugin engine and the `:terminal` full integration. It also requires to be compiled with the following flags: `+terminal +clientserver +clipboard +python3` . To verify version and flags run `vim --version` 
+The distribution is designed to work with Vim >= 8.1, taking advantage of the multi-thread plugin engine and the `:terminal` full integration. It also requires to be compiled with the following flags: `+terminal +clipboard +python3` . To verify version and flags run `vim --version`
 
 [Official Vim GitHub](https://github.com/vim/vim/)
 
@@ -22,31 +22,24 @@ It also uses the NPM package manager for node, to have a live syntactical linter
 
 ### Install dependencies --Arch Linux--
 
-> for mac and other distributions please replace the package manager accordingly, ie `brew install node` 
+> for mac and other distributions please replace the package manager accordingly, ie `brew install node`
 
 * `pacman -S node` .[nodejs](https://nodejs.org/)
 * `pacman -S git` . If you're in github, you probably have git installed ; )
 * `pacman -S ctags` .[ctags](https://github.com/universal-ctags/ctags)
 * `pacman -S the_silver_searcher` .[the_silver_searcher](https://github.com/ggreer/the_silver_searcher)
-* `pacman -S pyenv python-greenlet python-locallib` 
-* `pip install --user --no-binary :all: pynvim` 
-
-#### Mac OS Caveats
-
-Compilation of Vim8.1 with the `+clientserver` requires *macvim*, for more details in why is this required please [read this post](https://github.com/macvim-dev/macvim/issues/657#issuecomment-477094667).
-
-_**tl; dr**_
-
-* `brew uninstall vim` 
-* `brew install macvim` # [homebrew-macvim formula](https://github.com/macvim-dev/homebrew-macvim)
+* `pacman -S pyenv python-greenlet python-locallib`
+* `pip install --user --no-binary :all: pynvim`
 
 ## Installation
 
 To manually install lettuce, simple copy and paste my __.vimrc__ file into your home __~/.vimrc__. Or if you want to keep up to date with me, without forking me (recommend) create a symbolic link such as:
 
-`cd ~/some/path/to/you/libraries;` 
-`git clone git@github.com:aemonge/lettuce.git;` 
-`ln -s ~/some/path/to/you/libraries/lettuce/.vimrc ~/.;` 
+```
+cd ~/some/path/to/you/libraries;
+git clone git@github.com:aemonge/lettuce.git;
+ln -s ~/some/path/to/you/libraries/lettuce/.vimrc ~/.;
+```
 
 Then start vim, and let the magic of the plugin manager [(vim-plug)](https://github.com/junegunn/vim-plug) work for us :)
 
@@ -54,18 +47,19 @@ Then start vim, and let the magic of the plugin manager [(vim-plug)](https://git
 
 > I've written a tiny script to make vim act as any multiplexor. Providing you with the same context everywhere, because *it's all text!*
 
-__**~/.bashrc** or **~/.zshrc**__
+Use my vim executor (which simply uses the VIM JSON API to avoid duplicating instances of vim)
+```
+ln -s ~/some/path/to/you/libraries/lettuce/_vim ~/.vim/.;
+```
 
-``` 
+__**~/.bashrc** or **~/.zshrc**__
+```
 # My own version of tmux
   if [ $VIM_TERMINAL ]; then
-    # First change directory to PWD, then open files. Giving a IDE impression
-    alias vim='vim --servername $VIM_TERMINAL_PARENT_ID --remote-send "<C-\><C-n>:cd $PWD <cr>" --remote-tab'
+    alias vim=~/.vim/_vim
   fi
   if [ -z $VIM_TERMINAL ]; then
-    export VIM_TERMINAL_PARENT_ID="$-VMUX";
-    # the exit below is to close the terminal when vmux is done.
-    vim +':terminal ++curwin' --servername $VIM_TERMINAL_PARENT_ID && exit
+    vim +':terminal ++curwin ++close' && exit # || exit
   fi
 ```
 
@@ -74,7 +68,7 @@ Test it out by opening your terminal, and then going from insert-mode (default l
 ## Uninstall
 
 To clear your vim from plugins and mapping simple remove the __vim__ dir and my __vimrc__ file.
-`rm -rf ~/.vimrc ~/.vim` 
+`rm -rf ~/.vimrc ~/.vim`
 
 ## Intro to VIM
 
@@ -106,10 +100,10 @@ Play this game [vim-adventures](https://vim-adventures.com/) and here are some t
   + insert mode- stuff you type is added to the buffer
   + normal mode- keys you hit are interpreted as commands
   + visual mode- allows you to select blocks of text
-* To enter insert mode, hit `i` 
-* To exit insert mode, hit `<ESC>` 
-* To enter visual mode, hit `v` 
-* To exit visual mode, hit `<ESC>` 
+* To enter insert mode, hit `i`
+* To exit insert mode, hit `<ESC>`
+* To enter visual mode, hit `v`
+* To exit visual mode, hit `<ESC>`
 
 ## Special Thanks
 
@@ -126,7 +120,7 @@ Play this game [vim-adventures](https://vim-adventures.com/) and here are some t
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 "Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish, 
+without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to
 the following conditions:
@@ -134,11 +128,11 @@ the following conditions:
 The above copyright notice and this permission notice shall be included
 in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
