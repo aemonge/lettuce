@@ -1,3 +1,2 @@
 #!/bin/sh
-printf ']51;["drop", "'`readlink -f $@`'"]' msg
-# printf ']51;["call", ":tabe", ["'`readlink -f $@`'"]]' msg
+printf ']51;["call", "Tapi_Tabe", "%s"]' "`echo -n $(readlink -f $@ | xargs)`"

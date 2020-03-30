@@ -588,9 +588,12 @@
     endif
   endfunction
 
-  " function! Tabe(arglist)
-  "   exe "$tabe ".a:arglist
-  " endfunction
+  function! Tapi_Tabe(m, arglist)
+    let files = split(a:arglist, ' ')
+    for file in files
+      exe "$tabe ".file
+    endfor
+  endfunction
 
   function! TerminalOptions()
     setlocal nonumber
