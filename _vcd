@@ -1,0 +1,2 @@
+#!/bin/sh
+printf ']51;["call", "Tapi_Cd", "%s"]' "`echo -n $(pwd)`"

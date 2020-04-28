@@ -595,6 +595,10 @@
     endfor
   endfunction
 
+  function! Tapi_Cd(m, cwd)
+    exe "cd ".a:cwd
+  endfunction
+
   function! TerminalOptions()
     setlocal nonumber
     setlocal norelativenumber

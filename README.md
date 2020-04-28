@@ -50,6 +50,7 @@ Then start vim, and let the magic of the plugin manager [(vim-plug)](https://git
 Use my vim executor (which simply uses the VIM JSON API to avoid duplicating instances of vim)
 ```
 ln -s ~/some/path/to/you/libraries/lettuce/_vim ~/.vim/.;
+ln -s ~/some/path/to/you/libraries/lettuce/_vcd ~/.vim/.;
 ```
 
 __**~/.bashrc** or **~/.zshrc**__
@@ -57,6 +58,7 @@ __**~/.bashrc** or **~/.zshrc**__
 # My own version of tmux
   if [ $VIM_TERMINAL ]; then
     alias vim=~/.vim/_vim
+    alias vcd=~/.vim/_vcd
   fi
   if [ -z $VIM_TERMINAL ]; then
     vim +':terminal ++curwin ++close' && exit # || exit
