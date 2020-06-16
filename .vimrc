@@ -28,8 +28,8 @@
   " For windows set the correct shell environments
   if has('win32')
     let $CHERE_INVOKING=1                                                     " Makes bash open in the working directory
-    set shell=cmd.exe
-    set shellcmdflag=/c\ powershell.exe\ -NoLogo\ -NoProfile\ -NonInteractive\ -ExecutionPolicy\ Bypass " -Command '$LOCALAPPDATA//nvim/profile.ps1'
+    " set shell=cmd.exe
+    " set shellcmdflag=/c\ powershell.exe\ -NoLogo\ -NoProfile\ -NonInteractive\ -ExecutionPolicy\ Bypass " -Command '$LOCALAPPDATA//nvim/profile.ps1'
 
     " set shellcmdflag=/c\ PowerShell\ -ExecutionPolicy Bypass\ -NoLogo\ -NoProfile\ -NoExit\ -Command \"Invoke-Expression '. ''%ConEmuDir%\..\profile.ps1'''\"\
     set shellpipe=|
@@ -63,13 +63,9 @@
     set t_vb=                                                                  " No sound on errors
     set cursorcolumn                                                           " Display vertical and horizontal current line
     set cursorline                                                             " Display vertical and horizontal current line
-    noremap <C-l><C-l> :syntax sync fromstart<cr>:redraw!<cr>
-                                                                               " Since vim looses highlight colors sometimes @NOTE: There's double L
+    set virtualedit+=onemore
 
     set spl=en_us,es_es spell
-    if has('win32')
-      set spl=en_us spell
-    endif
       map <leader>ts :set spell!<cr>
 
   " Backups
@@ -230,6 +226,7 @@
     set showcmd                                                                " Show cmd
     set whichwrap+=h,l,<,>,[,]                                                 " Backspace and cursor keys wrap to
     set sidescroll=1                                                           " Minimal number of columns to scroll horizontally
+    set scrolloff=0                                                            " Avoid having a weird padding while moving with L H
     set showmatch                                                              " Show matching brackets/parenthesis
     set matchtime=2                                                            " Decrease the time to blink
     set relativenumber                                                         " Show line numbers relative
@@ -540,7 +537,7 @@
     vmap s :s/
     " double // to search selected text ;)
     vnorem // y/<c-r>"<cr>
-    vnorem <C-H> y:<C-f>pI%S/<Esc>A//gic<Esc>hhhi
+    vnorem <C-H> y:<C-f>pI%s/<Esc>A//gic<Esc>hhhi
     " Use ,Space to toggle the highlight search
     nnoremap <Leader><Space> :noh<CR>
 
@@ -575,7 +572,10 @@
     endif
 
     " On entering the terminal, go directly to insert mode.
-    silent! normal i
+    " But it's only useful for when it's the only split
+    if len(tabpagebuflist()) == 1
+      silent! normal i
+    endif
 
     " Then make sure the go to file map open in new tab
     " vnoremap gf <c-w>gf
@@ -651,10 +651,18 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                     Local Plugs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+  " Since vim looses highlight colors sometimes @NOTE: There's double L
+  function! ReDraw()
+    syntax sync fromstart
+    redraw!
+    AirlineRefresh
+  endfunction
+  noremap <C-l><C-l> :call ReDraw()<cr>
+
   function! DebugVar()
     if &ft == 'javascript' || &ft == 'jasmine.javascript' || &ft == 'javascript.jsx' || &ft == 'html' || &ft == 'typescript'
       exe "normal oconsole.log();"
-      exe "normal hi': ', "
+      exe 'normal hi": ", '
       exe "normal pg;"
       exe "normal bblp^j"
     elseif &ft == 'php'
