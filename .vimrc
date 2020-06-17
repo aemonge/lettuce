@@ -417,6 +417,7 @@
       let g:ale_linters = {
       \  'typescript': [ 'eslint' ],
       \  'javascript': [ 'eslint' ],
+      \  'java': [ 'javac' ],
       \  'sass': [ 'stylelint' ],
       \  'scss': [ 'stylelint' ],
       \  'css': [ 'stylelint' ],
@@ -427,6 +428,7 @@
       let g:ale_fixers = {
       \  'typescript': [ 'tslint', 'prettier' ],
       \  'javascript': [ 'eslint', 'prettier' ],
+      \  'java': [ 'uncrustify' ],
       \  'jsx': [ 'eslint', 'prettier'  ],
       \  'json': ['fixjson'],
       \  'sass': [ 'prettier' ],
