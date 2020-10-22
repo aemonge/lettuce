@@ -140,6 +140,9 @@
     map <leader>tw :set wrap!<cr>
     set breakindent                                                            " Every wrapped line will continue visually indented
 
+  " The linediff plugin provides a simple command, :Linediff, which is used to diff two separate blocks of text.
+    Plug 'AndrewRadev/linediff.vim'
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                          Completions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -242,11 +245,13 @@
     set cc=120                                                                 " visible column at 120 so we can knwo our limit
 
   " Plugs
+    Plug 'ryanoasis/vim-devicons'                                                " Supports plugins such as NERDTree, vim-airline, CtrlP, powerline, denite, unite, lightline.vim, vim-startify, vimfiler, vim-buffet and flagship.
     Plug 'godlygeek/CSApprox'
-    Plug 'w0ng/vim-hybrid'                                                     " Colorscheme hybrid
+    Plug 'w0ng/vim-hybrid'                                                       " Colorscheme hybrid
+    Plug 'kristijanhusak/vim-hybrid-material'                                    " https://github.com/kristijanhusak/vim-hybrid-material
       silent! function! SetTheme()
         set background=dark
-        silent! colorscheme hybrid
+        silent! colorscheme hybrid_material
         hi clear SpellBad
         hi clear SpellCap
         hi SpellBad     gui=underline cterm=underline
@@ -261,6 +266,9 @@
         hi CursorLine   ctermbg=none
         hi CursorColumn ctermbg=none
         hi SignColumn   ctermbg=none
+        let g:enable_bold_font = 1
+        let g:enable_italic_font = 1
+        let g:hybrid_transparent_background = 1
       endfunction
 
     if !exists("g:hybrid_use_Xresources")
@@ -641,8 +649,8 @@
     nmap <leader>x :terminal<cr>
 
     " Refresh and clear command to terminal
-    tnoremap <C-l><C-l> clear<cr><C-\><C-N>:redraw<cr>A
-    tnoremap <C-l><C-l><C-l> reset<cr><C-\><C-N>:redraw<cr>A
+    tnoremap <C-l><C-l> clear<cr><C-\><C-N>:call DeepRedraw()<cr>A
+    tnoremap <C-l><C-l><C-l> reset<cr><C-\><C-N>:call DeepRedraw()<cr>A
 
     if !has('clientserver')
       tnoremap <C-x> <C-\><C-N>:call Cd2pwd() <cr>
@@ -654,12 +662,13 @@
 "                     Local Plugs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Since vim looses highlight colors sometimes @NOTE: There's double L
-  function! ReDraw()
+
+  function! DeepRedraw()
     syntax sync fromstart
-    redraw!
-    AirlineRefresh
+    redraw
+    exe 'normal :AirlineRefresh<cr>'
   endfunction
-  noremap <C-l><C-l> :call ReDraw()<cr>
+  noremap <C-l><C-l> :call DeepRedraw()<cr>
 
   function! DebugVar()
     if &ft == 'javascript' || &ft == 'jasmine.javascript' || &ft == 'javascript.jsx' || &ft == 'html' || &ft == 'typescript'
