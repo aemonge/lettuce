@@ -141,7 +141,7 @@
     set breakindent                                                            " Every wrapped line will continue visually indented
 
   " The linediff plugin provides a simple command, :Linediff, which is used to diff two separate blocks of text.
-    Plug 'AndrewRadev/linediff.vim'
+    " Plug 'AndrewRadev/linediff.vim'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                          Completions
@@ -160,45 +160,15 @@
     imap <C-f> <c-x><c-f>
 
   " Plugs
-    Plug 'ajh17/VimCompletesMe'
+    Plug 'ackyshake/VimCompletesMe'
       let b:vcm_tab_complete = "omni"
       autocmd FileType sh let b:vcm_tab_complete = "vim"
-    " Plug 'Shougo/neocomplete.vim'                                            " Full time complete (alternative for YCM)
-    " let g:neocomplete#enable_at_startup = 1
-    " let g:neocomplete#enable_smart_case = 1
-    " let g:neocomplete#sources#syntax#min_keyword_length = 3
-    " let g:neocomplete#enable_auto_select = 0
-    " let g:neocomplete#auto_complete_delay = 30
-    " let g:neocomplete#enable_fuzzy_completion = 1
-    "   " <TAB>: completion. and closing with C-K and C-L
-    " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    " " Start the completion with C-K accept it with C-L
-    " inoremap <expr><C-n> neocomplete#start_manual_complete()
-    " inoremap <expr><C-k> neocomplete#smart_close_popup()."\<CR>"
-    " inoremap <expr><C-k> pumvisible() ? "\<C-y>" : "\<CR>"
-    " inoremap <expr><C-g>     neocomplete#undo_completion()
-    " inoremap <expr><C-l>     neocomplete#complete_common_string()
-    " " Close completion pop-up when deleting character
-    " " inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-    "   Plug 'roxma/nvim-yarp'
-    "   " Plug 'roxma/vim-hug-neovim-rpc'
-    "   if has('python') " Vim 8 only
-    "     pythonx import pynvim
-    "   endif
-    "   Plug 'Shougo/neosnippet.vim'
-    "   Plug 'Shougo/neosnippet-snippets'
-    "   " Plug 'Shougo/deoplete.nvim'
-    "   "   let g:deoplete#enable_at_startup = 1
-    "   "   imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    "   "   smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    "   "   xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-    " " Enable omni completion.
-    " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    " Enable omni completion.
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                         Fold Related
@@ -247,7 +217,6 @@
 
   " Plugs
     Plug 'ryanoasis/vim-devicons'                                                " Supports plugins such as NERDTree, vim-airline, CtrlP, powerline, denite, unite, lightline.vim, vim-startify, vimfiler, vim-buffet and flagship.
-    Plug 'godlygeek/CSApprox'
     Plug 'w0ng/vim-hybrid'                                                       " Colorscheme hybrid
     Plug 'kristijanhusak/vim-hybrid-material'                                    " https://github.com/kristijanhusak/vim-hybrid-material
       silent! function! SetTheme()
@@ -299,7 +268,6 @@
 
     Plug 'vim-airline/vim-airline'
       Plug 'vim-airline/vim-airline-themes'
-      " Plug 'vim-airline/vim-airline-term'
       Plug 'enricobacis/vim-airline-clock'
       let g:airline_theme = 'hybridline'
       let g:airline_solarized_bg='dark'
@@ -356,7 +324,7 @@
       nmap <leader>g :Gstatus<cr>
     Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
       nnoremap <leader>u :MundoToggle<CR>
-    Plug 'vim-scripts/netrw.vim'                                               " Netrw supports reading and writing files across networks.
+    " Plug 'vim-scripts/netrw.vim'                                               " Netrw supports reading and writing files across networks.
     Plug 'airblade/vim-gitgutter'                                              " Git diff sign
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
@@ -373,14 +341,14 @@
     xnoremap p pgvy
 
   " Plugs
-    Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
-    Plug 'chrisbra/sudoedit.vim'                                               " Enable sudo CRUD operations with none sudo vim instance
+    " Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
+    " Plug 'chrisbra/sudoedit.vim'                                               " Enable sudo CRUD operations with none sudo vim instance
     Plug 'tpope/vim-repeat'                                                    " Repeat
-    Plug 'Raimondi/delimitMate'                                                " Closing of quotes
+    " Plug 'Raimondi/delimitMate'                                                " Closing of quotes
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
     " Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
-    Plug 'tmhedberg/matchit'                                                   " Match it: extended % matching for HTML, LaTeX, and many other languages
-    Plug 'vim-scripts/PreserveNoEOL'                                           " This plugin causes Vim to omit the final newline (<EOL>) at the end of a text file when you save it, if it was missing when the file was read.
+    " Plug 'tmhedberg/matchit'                                                   " Match it: extended % matching for HTML, LaTeX, and many other languages
+    " Plug 'vim-scripts/PreserveNoEOL'                                           " This plugin causes Vim to omit the final newline (<EOL>) at the end of a text file when you save it, if it was missing when the file was read.
 
     " Plug 'svermeulen/vim-cutlass'                                              " Plugin that adds a 'cut' operation separate from 'delete'
     "  It is not that its low on performance, but it's weird to get used to this functionallity.....
@@ -412,52 +380,46 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Plugs
     Plug 'sheerun/vim-polyglot'                                                " Language Support a TON
-      let g:polyglot_disabled = ['graphql']                                      " Due to the following bug: https://github.com/sheerun/vim-polyglot/issues/331
-      " Plug 'vim-scripts/Txtfmt-The-Vim-Highlighter'                            " for Rich-text
-      Plug 'flniu/confluencewiki.vim'                                          " Support for confluence wiki (also jira descriptions)
-      au BufNewFile,BufReadPost *.wiki set filetype=confluencewiki
     Plug 'w0rp/ale', { 'do': 'npm i -g eslint node-waf  resolve ts-server typescript webpack stylelint eslint prettier htmllint jsonlint fixjson eslint-plugin-node eslint-plugin-vue eslint-plugin-standard eslint-plugin-html eslint-plugin-lodash eslint-plugin-es eslint-plugin-filenames eslint-plugin-json eslint-plugin-ember eslint-plugin-import eslint-import-resolver-webpack stylelint-config-recommended'  }              " A version of Syntactic that works a-sync
       map <leader>te :ALEToggle<cr>
       Plug 'Valloric/ListToggle'
-        " map <script> <silent> <leader>e :call ToggleLocationList()<CR>
         map <leader>ee :ALEDetail<cr><C-W>w
         let g:lt_location_list_toggle_map = '<leader>e'
-      let g:ale_sign_error = '✗'
-      let g:ale_sign_warning = '∆'
-      let g:ale_completion_enabled = 1
-      " Disabled tsserver in typescript since my machine is TOO slow.
-      let g:ale_linters = {
-      \  'typescript': [ 'eslint' ],
-      \  'javascript': [ 'eslint' ],
-      \  'java': [ 'javac' ],
-      \  'sass': [ 'stylelint' ],
-      \  'scss': [ 'stylelint' ],
-      \  'css': [ 'stylelint' ],
-      \  'jsx': [ 'eslint' ],
-      \  'json': [ 'jsonlint' ],
-      \  'html': ['htmlhint', 'stylelint', 'tidy', 'write-good']
-      \}
-      let g:ale_fixers = {
-      \  'typescript': [ 'tslint', 'prettier' ],
-      \  'javascript': [ 'eslint', 'prettier' ],
-      \  'java': [ 'uncrustify' ],
-      \  'jsx': [ 'eslint', 'prettier'  ],
-      \  'json': ['fixjson'],
-      \  'sass': [ 'prettier' ],
-      \  'scss': [ 'prettier' ],
-      \  'css': ['prettier'],
-      \  'markdown': ['prettier'],
-      \  'html': ['prettier']
-      \}
-      let g:ale_fix_on_save = 0
-      let g:ale_lint_on_save = 1
-      let g:ale_lint_on_enter=0
-      let g:ale_lint_on_filetype_changed=0
-      let g:ale_lint_on_insert_leave=0
-      let g:ale_lint_on_text_changed=0
-      let g:ale_echo_msg_format='%severity% (%linter%|%code%): %s'
-      let g:ale_loclist_msg_format='(%linter%|%code%): %s'
-    " Plug 'ternjs/tern_for_vim', { 'do' : 'npm i' }                             " This is a Vim plugin that provides Tern-based JavaScript editing support.
+        let g:ale_sign_error = '✗'
+        let g:ale_sign_warning = '∆'
+        let g:ale_completion_enabled = 1
+        " Disabled tsserver in typescript since my machine is TOO slow.
+        let g:ale_linters = {
+        \  'typescript': [ 'eslint' ],
+        \  'javascript': [ 'eslint' ],
+        \  'java': [ 'javac' ],
+        \  'sass': [ 'stylelint' ],
+        \  'scss': [ 'stylelint' ],
+        \  'css': [ 'stylelint' ],
+        \  'jsx': [ 'eslint' ],
+        \  'json': [ 'jsonlint' ],
+        \  'html': ['htmlhint', 'stylelint', 'tidy', 'write-good']
+        \}
+        let g:ale_fixers = {
+        \  'typescript': [ 'tslint', 'prettier' ],
+        \  'javascript': [ 'eslint', 'prettier' ],
+        \  'java': [ 'uncrustify' ],
+        \  'jsx': [ 'eslint', 'prettier'  ],
+        \  'json': ['fixjson'],
+        \  'sass': [ 'prettier' ],
+        \  'scss': [ 'prettier' ],
+        \  'css': ['prettier'],
+        \  'markdown': ['prettier'],
+        \  'html': ['prettier']
+        \}
+        let g:ale_fix_on_save = 0
+        let g:ale_lint_on_save = 1
+        let g:ale_lint_on_enter=0
+        let g:ale_lint_on_filetype_changed=0
+        let g:ale_lint_on_insert_leave=0
+        let g:ale_lint_on_text_changed=0
+        let g:ale_echo_msg_format='%severity% (%linter%|%code%): %s'
+        let g:ale_loclist_msg_format='(%linter%|%code%): %s'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                   Tab, Splits & Navigation
@@ -503,18 +465,11 @@
       vmap <Leader>a :Tab<CR>
       nmap <Leader>t :Tabularize /
       vmap <Leader>t :Tabularize /
+
     function! AutoFormatNFix()
-      if has('python') " Vim 8 only
-        :ALEFix
-        :Autoformat
-        :ALELint
-      endif
-      if !has('python')
-        :PrettierAsync
-      endif
+      :ALEFix
+      :PrettierAsync
     endfunction
-    Plug 'chiel92/vim-autoformat', { 'do': 'npm install -g js-beautify eslint typescript-formatter' }       " Format all code uses js-beautify for JS
-     noremap <leader>= :call AutoFormatNFix()<CR>
 
     " A vim plugin wrapper for prettier, pre-configured with custom default prettier settings.
     Plug 'prettier/vim-prettier', {
@@ -555,25 +510,12 @@
     nnoremap <Leader><Space> :noh<CR>
 
   " Plugs
-    Plug 'mileszs/ack.vim'                                                     " Search in the whole project (folder)
+    " Plug 'mileszs/ack.vim'                                                     " Search in the whole project (folder)
       nnoremap <Leader>f :Ack!<Space>
       vnoremap <Leader>f y:Ack! <C-r>=fnameescape(@")<CR><CR>
       if executable('ag')
         let g:ackprg = 'ag --vimgrep'
       endif
-    " Plug 'jungomi/vim-mdnquery', { 'do': 'gem install mdn_query' }             " Query the Mozilla Developer Network documentation without leaving Vim.
-    "   autocmd FileType html setlocal keywordprg=:MdnQueryFirstMatch
-    "   " Search in JS and CSS topics
-    "   let g:mdnquery_topics = ['js', 'css', 'html']
-    "   " Automatically set the topics for HTML files
-    "   autocmd FileType html let b:mdnquery_topics = ['css', 'html']
-    "   autocmd FileType javascript let b:mdnquery_topics = ['js']
-    "   autocmd FileType typescript let b:mdnquery_topics = ['js']
-    "   " Buffer Appereance
-    "   let g:mdnquery_show_on_invoke = 1
-    "   let g:mdnquery_auto_focus = 1
-    "   let g:mdnquery_size = 10
-    "   " autocmd User MdnQueryContentChange call mdnquery#focus()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                        Terminal
@@ -781,3 +723,6 @@
   " Plug 'vim-scripts/colorsupport.vim'
   " Plug 'vim-scripts/loremipsum'
   " Plug 'zweifisch/pipe2eval'
+  " Plug 'jungomi/vim-mdnquery', { 'do': 'gem install mdn_query' }             " Query the Mozilla Developer Network documentation without leaving Vim.
+  " Plug 'ternjs/tern_for_vim', { 'do' : 'npm i' }                             " This is a Vim plugin that provides Tern-based JavaScript editing support.
+  " Plug 'godlygeek/CSApprox'                                                  " Hyper slow
