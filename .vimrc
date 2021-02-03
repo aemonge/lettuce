@@ -162,6 +162,7 @@
   " Plugs
     Plug 'ajh17/VimCompletesMe'
       let b:vcm_tab_complete = "omni"
+      autocmd FileType sh let b:vcm_tab_complete = "vim"
     " Plug 'Shougo/neocomplete.vim'                                            " Full time complete (alternative for YCM)
     " let g:neocomplete#enable_at_startup = 1
     " let g:neocomplete#enable_smart_case = 1
@@ -298,6 +299,7 @@
 
     Plug 'vim-airline/vim-airline'
       Plug 'vim-airline/vim-airline-themes'
+      " Plug 'vim-airline/vim-airline-term'
       Plug 'enricobacis/vim-airline-clock'
       let g:airline_theme = 'hybridline'
       let g:airline_solarized_bg='dark'
@@ -307,15 +309,15 @@
       " Fugitive
       let g:airline#extensions#fugitiveline#enabled = 1
       " Tab-line
-      let g:airline#extensions#tabline#show_tab_nr = 0
+      let g:airline#extensions#tabline#show_tab_nr = 1
       let g:airline#extensions#tabline#tabs_label = ''
       let g:airline#extensions#tabline#buffers_label = ''
       let g:airline#extensions#tabline#show_tabs = 1
       let g:airline#extensions#tabline#show_buffers = 0
       let g:airline#extensions#tabline#buffer_idx_mode = 1
       let g:airline#extensions#tabline#enabled = 1
-      let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-      let g:airline#extensions#tabline#show_splits = 0
+      let g:airline#extensions#tabline#formatter = 'short_path'
+      let g:airline#extensions#tabline#show_splits = 1
       " ALE
       let g:airline#extensions#ale#enabled = 1
       let airline#extensions#ale#show_line_numbers = 1
@@ -327,8 +329,8 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " Nerd Tree alike file explorer
     Plug 'scrooloose/nerdtree'                                                 " NERD tree
-      map <leader>N :NERDTreeToggle<cr>
-      map <leader>n :NERDTreeFind<cr>
+      map <leader>n :NERDTreeToggle<cr>
+      map <leader>m :NERDTreeFind<cr>
       let NERDTreeDirArrows=1
       let NERDTreeQuitOnOpen = 1
 
@@ -351,9 +353,11 @@
     Plug 'mtth/scratch.vim'                                                    " A simple Scratch window for tooling
       nmap <leader>st :Scratch<cr>
     Plug 'tpope/vim-fugitive'                                                  " Git wrapper
+      nmap <leader>g :Gstatus<cr>
     Plug 'simnalamburt/vim-mundo'                                              " See the undo history graphically
       nnoremap <leader>u :MundoToggle<CR>
     Plug 'vim-scripts/netrw.vim'                                               " Netrw supports reading and writing files across networks.
+    Plug 'airblade/vim-gitgutter'                                              " Git diff sign
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Expected Enhancements
@@ -443,8 +447,7 @@
       \  'scss': [ 'prettier' ],
       \  'css': ['prettier'],
       \  'markdown': ['prettier'],
-      \  'html': ['prettier'],
-      \  '*': ['prettier']
+      \  'html': ['prettier']
       \}
       let g:ale_fix_on_save = 0
       let g:ale_lint_on_save = 1
@@ -467,8 +470,8 @@
     nmap + :3wincmd +<cr>
     nmap = :3wincmd <<cr>
     nmap - :2wincmd ><cr>
-    map <C-j> :wincmd w<cr>
     map <C-k> :wincmd W<cr>
+    map <C-j> :wincmd w<cr>
 
   " quick tab move [ tab, and shift tab ]
     nmap <C-l> gt
@@ -575,21 +578,20 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                        Terminal
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-  function! TermAuEnter()
-    if tabpagenr('$') == 1 && bufwinnr('$') == -1
+  function! OnOneTermInsert()
+    " On entering the terminal, go directly to insert mode.
+    " But it's only useful for when it's the only split
+    if len(tabpagebuflist()) == 1 && &buftype == 'terminal'
+      silent! normal i
+    endif
+  endfunction
+
+  function! SmartBufClean()
+    if tabpagenr('$') == 1 && bufwinnr('$') == -1 && &buftype == 'terminal'
+      " && getbufvar(a:buf, '&buftype') == 'terminal'
       " when only the term tab remains, clear all. To give the impression of closing vim.
       silent! BufOnly!
     endif
-
-    " On entering the terminal, go directly to insert mode.
-    " But it's only useful for when it's the only split
-    if len(tabpagebuflist()) == 1
-      silent! normal i
-    endif
-
-    " Then make sure the go to file map open in new tab
-    " vnoremap gf <c-w>gf
-    " vnoremap gF <c-w>gF
   endfunction
 
   function! CloseTermQuitAll()
@@ -620,10 +622,14 @@
     setlocal nolazyredraw
     setlocal nofoldenable
     setlocal nolist                                                   " list disables linebreak
-    " set isfname+=32                                                   " Make spaces a valid file names
+    " setlocal titlestring="Term"
+    " setlocal title
+    set isfname+=32                                                   " Make spaces a valid file names
     " setlocal nohlsearch
 
-    au BufEnter <buffer> call TermAuEnter()
+    " au BufEnter <buffer> call TermAuEnter()
+    au TabClosed * call SmartBufClean()
+    au TabEnter * call OnOneTermInsert()
     au BufUnload <buffer> call CloseTermQuitAll()
     map <buffer> <nowait> gF :tabe <cfile><CR>
     map <buffer> <nowait> gf :tabe <cfile><CR>
@@ -638,8 +644,8 @@
   function! TerminalMapping()
     " To use `ALT+{h,j,k,l}` to navigate windows from any mode:
     tnoremap <ESC><ESC> <C-\><C-n>
-    tnoremap <C-j> <C-\><C-N><C-w>w
     tnoremap <C-k> <C-\><C-N><C-w>W
+    tnoremap <C-j> <C-\><C-N><C-w>w
     tnoremap <C-l> <C-\><C-N>gt
     tnoremap <C-h> <C-\><C-N>gT
 
