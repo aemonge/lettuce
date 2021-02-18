@@ -1,5 +1,6 @@
-  " " ==> Reminders
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
+"                             Reminders                                                                              "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
   " * Standard Vim protocol for quickfixing is to show you the output of the command then jump to the first result automatically. You can cycle through the results with :cn[ext] and :cp[rev].
   " BUFFERS !!!
   " :b <number> 	Display the buffer with the given number.
@@ -326,6 +327,8 @@
       nnoremap <leader>u :MundoToggle<CR>
     " Plug 'vim-scripts/netrw.vim'                                               " Netrw supports reading and writing files across networks.
     Plug 'airblade/vim-gitgutter'                                              " Git diff sign
+   Plug 'majutsushi/tagbar'                                                   " Tag bar
+     nmap <leader>b :TagbarToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Expected Enhancements
@@ -344,10 +347,10 @@
     " Plug 'sickill/vim-pasta'                                                   " Paste Aligned to context
     " Plug 'chrisbra/sudoedit.vim'                                               " Enable sudo CRUD operations with none sudo vim instance
     Plug 'tpope/vim-repeat'                                                    " Repeat
-    " Plug 'Raimondi/delimitMate'                                                " Closing of quotes
+    Plug 'Raimondi/delimitMate'                                                " Closing of quotes
     Plug 'vim-scripts/BufOnly.vim'                                             " Delete all the buffers except the current/named buffer
     " Plug 'rhysd/vim-grammarous'                                                " vim-grammarous is a powerful grammar checker for Vim. Simply do :GrammarousCheck to see the powerful checking
-    " Plug 'tmhedberg/matchit'                                                   " Match it: extended % matching for HTML, LaTeX, and many other languages
+    Plug 'tmhedberg/matchit'                                                   " Match it: extended % matching for HTML, LaTeX, and many other languages
     " Plug 'vim-scripts/PreserveNoEOL'                                           " This plugin causes Vim to omit the final newline (<EOL>) at the end of a text file when you save it, if it was missing when the file was read.
 
     " Plug 'svermeulen/vim-cutlass'                                              " Plugin that adds a 'cut' operation separate from 'delete'
@@ -392,7 +395,7 @@
         let g:ale_linters = {
         \  'typescript': [ 'eslint' ],
         \  'javascript': [ 'eslint' ],
-        \  'java': [ 'javac' ],
+        \  'java': [ 'javac', 'javalsp' ],
         \  'sass': [ 'stylelint' ],
         \  'scss': [ 'stylelint' ],
         \  'css': [ 'stylelint' ],
@@ -403,7 +406,7 @@
         let g:ale_fixers = {
         \  'typescript': [ 'tslint', 'prettier' ],
         \  'javascript': [ 'eslint', 'prettier' ],
-        \  'java': [ 'uncrustify' ],
+        \  'java': [ 'google_java_format', 'uncrustify' ],
         \  'jsx': [ 'eslint', 'prettier'  ],
         \  'json': ['fixjson'],
         \  'sass': [ 'prettier' ],
@@ -420,6 +423,15 @@
         let g:ale_lint_on_text_changed=0
         let g:ale_echo_msg_format='%severity% (%linter%|%code%): %s'
         let g:ale_loclist_msg_format='(%linter%|%code%): %s'
+    " Java development
+    Plug 'sbdchd/neoformat'
+    Plug 'artur-shaik/vim-javacomplete2'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'neomake/neomake'
+    Plug 'thecodesmith/vim-groovy'
+    Plug 'natebosch/vim-lsc'
+      Plug 'vim-scripts/javacomplete'
+    autocmd FileType java setlocal omnifunc=javacomplete#Complete
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                   Tab, Splits & Navigation
@@ -554,6 +566,7 @@
   endfunction
 
   function! TerminalOptions()
+    setlocal autoread
     setlocal nonumber
     setlocal norelativenumber
     setlocal nospell
@@ -641,6 +654,8 @@
   endfunction
   nmap <leader>v :call DebugVar()<cr>
 
+  autocmd! BufNewFile,BufRead Jenkinsfile setf groovy
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""|"""""""""""""""""""""""""""""""""""""|
 "                    Finizalization
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -705,7 +720,6 @@
   " Plug 'junegunn/limelight.vim'
   " Plug 'kristijanhusak/vim-multiple-cursors'                                 " Multiple cursors
   " Plug 'kylef/apiblueprint.vim'                                            " API Blueprint
-  " Plug 'majutsushi/tagbar'                                                   " Tag bar
   " Plug 'mhartington/vim-typings'                                               " SUPER SLOWS EVERYTHING provides .d.ts management for typings users.
   " Plug 'mhinz/vim-startify'                                                  " The fancy start screen
   " Plug 'moll/vim-node'
